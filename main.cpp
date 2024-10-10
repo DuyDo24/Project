@@ -1,10 +1,18 @@
 #include <SFML/Graphics.hpp>
 #include "Board.h"
+#include "Pawn.h"
 
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(400, 400), "SFML works!");
     Board board;
+
+    Pawn pawn(board.getChessSquare(1, 1));
+    Pawn pawn2(board.getChessSquare(2, 1));
+    Pawn pawn3(board.getChessSquare(3, 1));
+    Pawn pawn4(board.getChessSquare(4, 1));
+
+    sf::Image image;
 
     //Square s1;
 
@@ -31,6 +39,10 @@ int main()
         //window.draw(square);
 
         board.drawBoard(window);
+        pawn.draw(window);
+        pawn2.draw(window);
+        pawn3.draw(window);
+        pawn4.draw(window);
 
         window.display();
     }
