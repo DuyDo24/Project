@@ -10,6 +10,10 @@ void Square::setColor(sf::Color color) {
     square.setFillColor(color);
 }
 
+// void Square::setPosition(sf::Vector2f position) {
+//     square.setPosition(position);
+// }
+
 void Square::draw(sf::Vector2f& position, sf::RenderWindow& window) {
     square.setPosition(position);
     window.draw(square);

@@ -7,7 +7,7 @@ class Board {
         Square squares[8][8];
     public:
         Board();
-        void getSquare(sf::Vector2f& gridPosition);
+        Square* getChessSquare(int x, int y);
         void drawBoard(sf::RenderWindow& window);
 };
 
