@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "lldb",
+      "request": "launch",
+      "args": [],
+      "cwd": "/Users/duydo/Documents/GitHub/Project",
+      "program": "/Users/duydo/Documents/GitHub/Project/build/Debug/outDebug"
+    }
+  ]
+}

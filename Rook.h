@@ -3,11 +3,17 @@
 
 #include "Piece.h"
 
-class Rook : public Piece {
-public:
-    Rook(const sf::Vector2f& position, Square* startingSquare, const sf::Texture& texture);
 
+class Rook : public Piece {
+private:
+    static sf::Texture rookTexture;
+public:
+    // Constructor
+    Rook(Square* startingSquare);
+    
+    // Destructor
+    ~Rook() override;
     bool isValidMove(const sf::Vector2f& start, const sf::Vector2f& end) const override;
 };
 
-#endif
+#endif // ROOK_H

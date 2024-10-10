@@ -3,11 +3,18 @@
 
 #include "Piece.h"
 
-class Knight : public Piece {
-public:
-    Knight(const sf::Vector2f& position, Square* startingSquare, const sf::Texture& texture);
 
+class Knight : public Piece {
+private:
+    static sf::Texture knightTexture;
+public:
+    // Constructor
+    Knight(Square* startingSquare);
+    
+    // Destructor
+    ~Knight() override;
     bool isValidMove(const sf::Vector2f& start, const sf::Vector2f& end) const override;
+
 };
 
-#endif
+#endif // KNIGHT_H

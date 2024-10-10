@@ -3,11 +3,17 @@
 
 #include "Piece.h"
 
-class Bishop : public Piece {
-public:
-    Bishop(const sf::Vector2f& position, Square* startingSquare, const sf::Texture& texture);
 
+class Bishop : public Piece {
+private:
+    static sf::Texture bishopTexture;
+public:
+    // Constructor
+    Bishop(Square* startingSquare);
+    // Destructor
+    ~Bishop() override;
     bool isValidMove(const sf::Vector2f& start, const sf::Vector2f& end) const override;
+
 };
 
-#endif
+#endif // BISHOP_H

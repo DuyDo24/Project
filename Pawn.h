@@ -4,17 +4,10 @@
 #include "Piece.h"
 
 class Pawn : public Piece {
-public:
-    // Constructor with position and square pointer
-    Pawn(const sf::Vector2f& position, Square* square);
-
-
-    // Destructor
-    ~Pawn() override;
-
 private:
-    // Static texture shared by all Pawn instances
     static sf::Texture pawnTexture;
+public:
+    Pawn(Square* startingSquare);
+    bool isValidMove(const sf::Vector2f& start, const sf::Vector2f& end) const override;
 };
-
 #endif

@@ -1,5 +1,8 @@
 #include "Drawable.h"
 
+// Default constructor
+Drawable::Drawable() : point(sf::Vector2f(0,0)){}
+
 // Constructor
 Drawable::Drawable(const sf::Vector2f& position) : point(position) {}
 

@@ -9,6 +9,7 @@ protected:
     sf::Sprite image;     // Sprite to display the image
 
 public:
+    Drawable();
     Drawable(const sf::Vector2f& position);
     virtual ~Drawable();
 
