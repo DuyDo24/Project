@@ -9,7 +9,7 @@ class Clickable : public sf::Sprite {
         sf::FloatRect hitbox;
     public:
         Clickable();
-        void set_hitbox(sf::FloatRect& hitbox);
+        void set_hitbox(const sf::FloatRect& hitbox);
         sf::FloatRect get_hitbox();
         bool checkClicked(sf::RenderWindow& window);
 };

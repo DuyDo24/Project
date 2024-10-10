@@ -1,8 +1,11 @@
 #include <SFML/Graphics.hpp>
 #include "Clickable.h"
 
+Clickable::Clickable() {
+    
+}
 
-void Clickable::set_hitbox(sf::FloatRect& hitbox) {
+void Clickable::set_hitbox(const sf::FloatRect& hitbox) {
     this->hitbox = hitbox;
 }
 
