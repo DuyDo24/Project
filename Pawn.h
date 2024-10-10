@@ -5,9 +5,16 @@
 
 class Pawn : public Piece {
 public:
-    Pawn(const sf::Vector2f& position, Square* startingSquare, const sf::Texture& texture);
+    // Constructor with position and square pointer
+    Pawn(const sf::Vector2f& position, Square* square);
 
-    bool isValidMove(const sf::Vector2f& start, const sf::Vector2f& end) const override;
+
+    // Destructor
+    ~Pawn() override;
+
+private:
+    // Static texture shared by all Pawn instances
+    static sf::Texture pawnTexture;
 };
 
 #endif

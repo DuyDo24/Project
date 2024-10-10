@@ -6,10 +6,7 @@ Piece::Piece(const sf::Vector2f& position, Square* startingSquare, int val)
 Piece::~Piece() {}
 
 void Piece::move(const sf::Vector2f& newPosition) {
-    if (isValidMove(point, newPosition)) {
-        setPosition(newPosition);
-        hasMoved = true;
-    }
+    
 }
 
 int Piece::getValue() const {
