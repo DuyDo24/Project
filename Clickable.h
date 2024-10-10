@@ -7,11 +7,11 @@
 class Clickable : public sf::Sprite {
     private:
         sf::FloatRect hitbox;
-        sf::RenderWindow& window;
     public:
+        Clickable();
         void set_hitbox(sf::FloatRect& hitbox);
         sf::FloatRect get_hitbox();
-        bool checkClicked();
+        bool checkClicked(sf::RenderWindow& window);
 };
 
 #endif
