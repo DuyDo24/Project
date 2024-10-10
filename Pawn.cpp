@@ -1,16 +1,26 @@
 #include "Pawn.h"
 #include <iostream>
 
-sf::Texture Pawn::pawnTexture;
+sf::Texture Pawn::whitePawnTexture;
+sf::Texture Pawn::blackPawnTexture;
 
-Pawn::Pawn(Square* startingSquare)
+Pawn::Pawn(Square* startingSquare, bool black)
     : Piece(startingSquare, 1) {
-
-    if (!pawnTexture.loadFromFile("Chess_pdt60.png")) {
-        std::cerr << "Error loading pawn texture" << std::endl;
+    // Set sprite based on color
+    if (black == true) { 
+        if (!blackPawnTexture.loadFromFile("Chess_pdt60.png")) {
+            std::cerr << "Error loading pawn texture" << std::endl;
+        }
+        setTexture(Pawn::blackPawnTexture);
+    } else {
+        if (!whitePawnTexture.loadFromFile("Chess_plt60.png")) {
+            std::cerr << "Error loading pawn texture" << std::endl;
+        }
+        setTexture(Pawn::whitePawnTexture);
     }
-
-    setTexture(Pawn::pawnTexture);
+    
+    
+    
 }
 
 bool Pawn::isValidMove(const sf::Vector2f& start, const sf::Vector2f& end) const {

@@ -1,7 +1,9 @@
 #include "Piece.h"
+#include "Square.h"
 
 Piece::Piece(Square* startingSquare, int val)
     : hasMoved(false), square(startingSquare), value(val) {
+        square->setPiece(this);
         point = square->getSquare()->getPosition();
         setPosition(point);
     }

@@ -2,7 +2,8 @@
 #define PIECE_H
 
 #include "Drawable.h"
-#include "Square.h"
+
+class Square;
 
 class Piece : public Drawable {
 protected:

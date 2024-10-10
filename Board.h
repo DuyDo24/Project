@@ -8,6 +8,7 @@ class Board {
     public:
         Board();
         Square* getChessSquare(int x, int y);
+        void movePiece(Square* current, Square* target);
         void drawBoard(sf::RenderWindow& window);
 };
 

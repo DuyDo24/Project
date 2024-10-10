@@ -5,9 +5,10 @@
 
 class Pawn : public Piece {
 private:
-    static sf::Texture pawnTexture;
+    static sf::Texture whitePawnTexture;
+    static sf::Texture blackPawnTexture;
 public:
-    Pawn(Square* startingSquare);
+    Pawn(Square* startingSquare, bool black);
     bool isValidMove(const sf::Vector2f& start, const sf::Vector2f& end) const override;
 };
 #endif
