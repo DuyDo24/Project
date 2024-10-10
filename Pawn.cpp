@@ -8,12 +8,12 @@ Pawn::Pawn(Square* startingSquare, bool black)
     : Piece(startingSquare, 1) {
     // Set sprite based on color
     if (black == true) { 
-        if (!blackPawnTexture.loadFromFile("Chess_pdt60.png")) {
+        if (!blackPawnTexture.loadFromFile("textures/Chess_pdt60.png")) {
             std::cerr << "Error loading pawn texture" << std::endl;
         }
         setTexture(Pawn::blackPawnTexture);
     } else {
-        if (!whitePawnTexture.loadFromFile("Chess_plt60.png")) {
+        if (!whitePawnTexture.loadFromFile("textures/Chess_plt60.png")) {
             std::cerr << "Error loading pawn texture" << std::endl;
         }
         setTexture(Pawn::whitePawnTexture);
