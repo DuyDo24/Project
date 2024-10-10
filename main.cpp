@@ -10,11 +10,11 @@ int main() {
 
     //pawn
     Clickable shape;
-    shape.setPosition(300.f,300.f);
+    shape.setPosition(100,100);
     sf::Texture square_texture;
     square_texture.loadFromFile("pawn.png");
     shape.setTexture(square_texture);
-    shape.set_hitbox({0.f,0.f,50.f,50.f});
+    shape.set_hitbox({0,0,50,50});
 
     //font
     sf::Font font;
@@ -27,21 +27,19 @@ int main() {
     clickText.setPosition(300,300);
     clickText.setString("clicked");
 
-    while (window.isOpen())
-    {
+    while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed)
+            if (event.type == sf::Event::Closed) {
                 window.close();
-
-        }
-
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-            if(shape.checkClicked(window)) {
-                window.draw(clickText);
-                std::cout << "click";
-            };
+            }
+            if(event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left ) {
+                if(shape.checkClicked(window)) {
+                    std::cout << "click";
+                    window.draw(clickText);
+                };
+            }
         }
 
         window.clear();
