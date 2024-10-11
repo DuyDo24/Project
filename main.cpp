@@ -12,7 +12,7 @@ int main()
     Pawn pawn3(board.getChessSquare(3, 1), true);
     Pawn pawn4(board.getChessSquare(4, 1), false);
 
-    board.movePiece(board.getChessSquare(1,1), board.getChessSquare(1,2));
+    
     //Square s1;
 
     // sf::RectangleShape square;
@@ -25,8 +25,25 @@ int main()
         sf::Event event;
         while (window.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed)
+            if (event.type == sf::Event::Closed) {
                 window.close();
+            }
+
+            if (event.type == sf::Event::KeyPressed) {
+                if (event.key.code == sf::Keyboard::A) {
+                    board.movePiece(board.getChessSquare(1,1), board.getChessSquare(1,2));
+                } else {
+                    board.movePiece(board.getChessSquare(1,2), board.getChessSquare(1,1));
+                }
+            }
+
+            if (event.type == sf::Event::MouseButtonPressed) {
+                if (board.getChessSquare(1,1)->checkClicked(window)) {
+                    board.movePiece(board.getChessSquare(1,1), board.getChessSquare(1,2));
+                }
+
+                
+            }
         }
 
         window.clear();
