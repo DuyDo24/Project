@@ -8,7 +8,7 @@ sf::Texture King::kingTexture;
 King::King(Square* startingSquare)
     : Piece(startingSquare, 0) // 0 is the value of the King (or you can use a different value)
 {
-    if (!kingTexture.loadFromFile("Chess_klt60.png")) {
+    if (!kingTexture.loadFromFile("textures/Chess_klt60.png")) {
         std::cerr << "Error loading pawn texture" << std::endl;
     }
     setTexture(kingTexture);

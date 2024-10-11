@@ -9,7 +9,7 @@ Knight::Knight(Square* startingSquare)
     : Piece(startingSquare, 3) // 3 is the value of the Knight
 {
 
-     if (!knightTexture.loadFromFile("Chess_nlt60.png")) {
+     if (!knightTexture.loadFromFile("textures/Chess_nlt60.png")) {
         std::cerr << "Error loading pawn texture" << std::endl;
     }
     setTexture(knightTexture);

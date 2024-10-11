@@ -1,69 +1,79 @@
 #include <SFML/Graphics.hpp>
 #include "Board.h"
-#include "Square.h"
 #include "Pawn.h"
-#include "Queen.h"
-#include "Bishop.h"
-#include "Rook.h"
-#include "Knight.h"
-#include "King.h"
-
 
 int main() {
-    // Create a window for the game
-    sf::RenderWindow window(sf::VideoMode(400, 400), "Card Chess - Display Pawn");
+    // Create the main window
+    sf::RenderWindow window(sf::VideoMode(400, 400), "Chess Game");
+
+    // Create the game board
     Board board;
 
-    Pawn wpawn1(board.getChessSquare(0,6));
-    Pawn wpawn2(board.getChessSquare(1, 6));
-    Pawn wpawn3(board.getChessSquare(2, 6));
-    Pawn wpawn4(board.getChessSquare(3, 6));
-    Pawn wpawn5(board.getChessSquare(4, 6));
-    Pawn wpawn6(board.getChessSquare(6, 6));
-    Pawn wpawn7(board.getChessSquare(7, 6));
-    Pawn wpawn8(board.getChessSquare(5, 6));
-    Queen wqueen(board.getChessSquare(3, 7));
-    Bishop wbishop1(board.getChessSquare(2,7));
-    Bishop wbishop2(board.getChessSquare(5,7));
-    Knight wknight1(board.getChessSquare(6,7));
-    Knight wknight2(board.getChessSquare(1,7));
-    Rook wrook1(board.getChessSquare(0, 7));
-    Rook wrook2(board.getChessSquare(7, 7));
-    King wking(board.getChessSquare(4, 7));
-    
-    // Main game loop
+    // Initialize pawns on the board
+    for (int i = 0; i < 8; ++i) {
+        board.getChessSquare(i, 1)->setPiece(new Pawn(board.getChessSquare(i, 1), false));  // White pawns
+        board.getChessSquare(i, 6)->setPiece(new Pawn(board.getChessSquare(i, 6), true));   // Black pawns
+    }
+
+    // Variables for piece movement
+    Square* selectedSquare = nullptr;  // To store the currently selected square
+
+    // Main loop
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed)
+            if (event.type == sf::Event::Closed) {
                 window.close();
+            }
+
+            if (event.type == sf::Event::MouseButtonPressed) {
+                if (event.mouseButton.button == sf::Mouse::Left) {
+                    // Get the mouse position
+                    sf::Vector2f mousePos(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y));
+
+                    // Determine which square was clicked
+                    int x = static_cast<int>(mousePos.x / 50); // Each square is 50 pixels
+                    int y = static_cast<int>(mousePos.y / 50);
+
+                    // Check if the clicked square is valid
+                    if (x >= 0 && x < 8 && y >= 0 && y < 8) {
+                        Square* targetSquare = board.getChessSquare(x, y);
+
+                        // If a square is already selected, attempt to move the piece
+                        if (selectedSquare) {
+                            if (selectedSquare->getPiece()) {
+                                // Validate the move
+                                sf::Vector2f start = selectedSquare->getPosition();
+                                sf::Vector2f end = targetSquare->getPosition();
+                                
+                                if (selectedSquare->getPiece()->isValidMove(start, end)) {
+                                    board.movePiece(selectedSquare, targetSquare);
+                                }
+                            }
+                            selectedSquare = nullptr; // Deselect the piece after moving
+                        } else {
+                            // Select the square if it contains a piece
+                            selectedSquare = targetSquare->getPiece() ? targetSquare : nullptr;
+                        }
+                    }
+                }
+            }
         }
 
         // Clear the window
         window.clear(sf::Color::Black);
 
-        // Draw the pawn
+        // Draw the board
         board.drawBoard(window);
-        wpawn1.draw(window); 
-        wpawn2.draw(window); 
-        wpawn3.draw(window); 
-        wpawn4.draw(window); 
-        wpawn5.draw(window); 
-        wpawn6.draw(window); 
-        wpawn7.draw(window); 
-        wpawn8.draw(window); 
-        wqueen.draw(window);
-        wbishop1.draw(window);
-        wknight1.draw(window);
-        wrook1.draw(window);
-        wbishop2.draw(window);
-        wknight2.draw(window);
-        wrook2.draw(window);
-        wking.draw(window);
-       // Call the draw method of the Pawn class
 
-        // Display everything on the window
+        // Display the contents of the window
         window.display();
+    }
+
+    // Clean up dynamically allocated pieces
+    for (int i = 0; i < 8; ++i) {
+        delete board.getChessSquare(i, 1)->getPiece(); // Delete white pawns
+        delete board.getChessSquare(i, 6)->getPiece(); // Delete black pawns
     }
 
     return 0;
