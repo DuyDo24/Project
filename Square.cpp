@@ -2,7 +2,7 @@
 #include "Piece.h"
 
 Square::Square() {
-    square.setFillColor(sf::Color(122,122,122,255));
+    setColor(sf::Color(122,122,122,255));
     square.setSize(sf::Vector2f(50,50));
     square.setPosition(sf::Vector2f(0,0));
     piece = nullptr;
@@ -11,6 +11,16 @@ Square::Square() {
 
 void Square::setColor(sf::Color color) {
     square.setFillColor(color);
+    defaultColor = color;
+    highlightedColor = color * sf::Color(255, 122, 122, 255);
+}
+
+void Square::setHighlight(bool highlighted) {
+    if (highlighted == true) {
+        square.setFillColor(highlightedColor);
+    } else {
+        square.setFillColor(defaultColor);
+    }
 }
 
 void Square::setPosition(sf::Vector2f position) {

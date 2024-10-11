@@ -8,6 +8,7 @@ void Game::handleClick(sf::RenderWindow& window) {
     if (gamePhase == 0) {
         target = board.getClickedSquare(window);
         gamePhase = 1;
+        target->setHighlight(true);
     } else {
         destination = board.getClickedSquare(window);
         if (target == destination) {
@@ -15,6 +16,8 @@ void Game::handleClick(sf::RenderWindow& window) {
         } else {
             board.movePiece(target, destination);
             gamePhase = 0;
+            target->setHighlight(false);
+            
         }
         
     }

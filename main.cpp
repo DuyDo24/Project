@@ -52,8 +52,11 @@ int main()
 
                 // Testing board getClickedSquare + two-step moving (choosing piece and target)
                 game.handleClick(window);
-                
-                // Doesn't work
+                // Works
+
+                // Testing square highlighting
+                // board->getClickedSquare(window)->setHighlight(true);
+                // Works
             }
         }
 
