@@ -1,16 +1,18 @@
 #include <SFML/Graphics.hpp>
 #include "Board.h"
 #include "Pawn.h"
-
+#include "Game.h"
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(400, 400), "SFML works!");
-    Board board;
+    Game game;
+    
+    Board* board = game.getBoard();
 
-    Pawn pawn(board.getChessSquare(1, 1), true);
-    Pawn pawn2(board.getChessSquare(2, 1), false);
-    Pawn pawn3(board.getChessSquare(3, 1), true);
-    Pawn pawn4(board.getChessSquare(4, 1), false);
+    Pawn pawn(board->getChessSquare(1, 1), true);
+    Pawn pawn2(board->getChessSquare(2, 1), false);
+    Pawn pawn3(board->getChessSquare(3, 1), true);
+    Pawn pawn4(board->getChessSquare(4, 1), false);
 
     
     //Square s1;
@@ -31,18 +33,27 @@ int main()
 
             if (event.type == sf::Event::KeyPressed) {
                 if (event.key.code == sf::Keyboard::A) {
-                    board.movePiece(board.getChessSquare(1,1), board.getChessSquare(1,2));
+                    board->movePiece(board->getChessSquare(1,1), board->getChessSquare(1,2));
                 } else {
-                    board.movePiece(board.getChessSquare(1,2), board.getChessSquare(1,1));
+                    board->movePiece(board->getChessSquare(1,2), board->getChessSquare(1,1));
                 }
             }
 
             if (event.type == sf::Event::MouseButtonPressed) {
-                if (board.getChessSquare(1,1)->checkClicked(window)) {
-                    board.movePiece(board.getChessSquare(1,1), board.getChessSquare(1,2));
-                }
+                // Testing square click detection
+                // if (board.getChessSquare(1,1)->checkClicked(window)) {
+                //     board.movePiece(board.getChessSquare(1,1), board.getChessSquare(1,2));
+                //     }
+                // Works
 
+                // Testing board.getClickedSquare()
+                // board.movePiece(board.getClickedSquare(window), board.getChessSquare(4,4));
+                // Works
+
+                // Testing board getClickedSquare + two-step moving (choosing piece and target)
+                game.handleClick(window);
                 
+                // Doesn't work
             }
         }
 
@@ -54,7 +65,7 @@ int main()
 
         //window.draw(square);
 
-        board.drawBoard(window);
+        board->drawBoard(window);
         
         // pawn.draw(window);
         // pawn2.draw(window);
@@ -62,7 +73,7 @@ int main()
         // pawn4.draw(window);
 
         window.display();
+        
     }
-
     return 0;
 }

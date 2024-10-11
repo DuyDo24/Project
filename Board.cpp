@@ -1,4 +1,5 @@
 #include "Board.h"
+#include <iostream>
 
 Board::Board() {
     for (int i = 0; i < 8; i++) {
@@ -29,7 +30,25 @@ Square* Board::getChessSquare(int x, int y) {
     return &squares[x][y];
 }
 
+Square* Board::getClickedSquare(sf::RenderWindow& window) {
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+            if (squares[i][j].checkClicked(window)) {
+                return &squares[i][j];
+            }
+        }
+    }
+    return nullptr;
+}
+
 void Board::movePiece(Square* current, Square* target) {
+    if (current == nullptr || target == nullptr) {
+        std::cerr << "Failed to move: null pointer given" << std::endl;
+        return;
+    }
+    if (current == target) {
+        return;
+    }
     if (current->getPiece() != nullptr) {
         Piece* movingPiece = current->getPiece();
         target->setPiece(movingPiece);
