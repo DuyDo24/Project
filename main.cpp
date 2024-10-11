@@ -1,19 +1,24 @@
 #include <SFML/Graphics.hpp>
 #include "Board.h"
 #include "Pawn.h"
+#include "Knight.h"
 #include "Game.h"
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(400, 400), "SFML works!");
+
     Game game;
     
     Board* board = game.getBoard();
 
-    Pawn pawn(board->getChessSquare(1, 1), true);
-    Pawn pawn2(board->getChessSquare(2, 1), false);
-    Pawn pawn3(board->getChessSquare(3, 1), true);
-    Pawn pawn4(board->getChessSquare(4, 1), false);
+    // Testing adding pieces to board
+    // Pawn pawn(board->getChessSquare(1, 1), true);
+    // Pawn pawn2(board->getChessSquare(2, 1), false);
+    // Pawn pawn3(board->getChessSquare(3, 1), true);
+    // Pawn pawn4(board->getChessSquare(4, 1), false);
+    // Works
 
+    Knight k1(board->getChessSquare(1,1), true);
     
     //Square s1;
 

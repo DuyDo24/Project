@@ -7,6 +7,7 @@ Square::Square() {
     square.setPosition(sf::Vector2f(0,0));
     piece = nullptr;
     hitbox = sf::FloatRect(square.getPosition(), square.getSize());
+    gridPos = sf::Vector2f(0,0);
 }
 
 void Square::setColor(sf::Color color) {
@@ -51,4 +52,13 @@ void Square::draw(sf::RenderWindow& window) {
 
 sf::RectangleShape* Square::getSquare() {
     return &square;
+}
+
+// Sets square's grid position
+void Square::setGridPos(sf::Vector2f& position) {
+    gridPos = position;
+}
+// Gets square's grid position
+sf::Vector2f Square::getGridPos() {
+    return gridPos;
 }

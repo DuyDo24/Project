@@ -41,6 +41,11 @@ class Square : public Clickable {
         void removePiece();
         // Returns associated piece
         Piece* getPiece();
+
+        // Sets square's grid position
+        void setGridPos(sf::Vector2f& position);
+        // Gets square's grid position
+        sf::Vector2f getGridPos();
 };
 
 #endif
