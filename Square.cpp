@@ -6,15 +6,17 @@ Square::Square() {
     square.setSize(sf::Vector2f(50,50));
     square.setPosition(sf::Vector2f(0,0));
     piece = nullptr;
+    hitbox = sf::FloatRect(square.getPosition(), square.getSize());
 }
 
 void Square::setColor(sf::Color color) {
     square.setFillColor(color);
 }
 
-// void Square::setPosition(sf::Vector2f position) {
-//     square.setPosition(position);
-// }
+void Square::setPosition(sf::Vector2f position) {
+    square.setPosition(position);
+    hitbox = sf::FloatRect(position, square.getSize());
+}
 
 void Square::setPiece(Piece* piece) {
     piece->setPosition(square.getPosition());
