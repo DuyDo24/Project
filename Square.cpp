@@ -2,51 +2,63 @@
 #include "Piece.h"
 
 Square::Square() {
-    square.setFillColor(sf::Color(122, 122, 122, 255)); // Default square color
-    square.setSize(sf::Vector2f(50, 50));               // Default square size
-    square.setPosition(sf::Vector2f(0, 0));             // Default position
-    piece = nullptr;                                    // No piece initially
-    hitbox = sf::FloatRect(square.getPosition(), square.getSize()); // Initialize hitbox for clicks
+    setColor(sf::Color(122,122,122,255));
+    square.setSize(sf::Vector2f(50,50));
+    square.setPosition(sf::Vector2f(0,0));
+    piece = nullptr;
+    hitbox = sf::FloatRect(square.getPosition(), square.getSize());
+    gridPos = sf::Vector2f(0,0);
 }
 
-// Set the color of the square
 void Square::setColor(sf::Color color) {
     square.setFillColor(color);
+    defaultColor = color;
+    highlightedColor = color * sf::Color(255, 122, 122, 255);
 }
 
-// Set the position of the square
+void Square::setHighlight(bool highlighted) {
+    if (highlighted == true) {
+        square.setFillColor(highlightedColor);
+    } else {
+        square.setFillColor(defaultColor);
+    }
+}
+
 void Square::setPosition(sf::Vector2f position) {
     square.setPosition(position);
-    hitbox = sf::FloatRect(position, square.getSize()); // Update hitbox with the new position
+    hitbox = sf::FloatRect(position, square.getSize());
 }
 
-// Place a piece on the square
 void Square::setPiece(Piece* piece) {
-    if (piece != nullptr) {
-        piece->setPosition(square.getPosition());  // Sync piece position with the square
-    }
-    this->piece = piece;  // Assign the piece
+    piece->setPosition(square.getPosition());
+    this->piece = piece;
 }
 
-// Remove the piece from the square
 void Square::removePiece() {
-    piece = nullptr;  // Set the piece to nullptr, meaning no piece is on the square
+    piece = nullptr;
 }
 
-// Get the current piece on the square
 Piece* Square::getPiece() {
-    return piece;  // Return the pointer to the piece
+    return piece;
 }
 
-// Draw the square and any piece on it
 void Square::draw(sf::RenderWindow& window) {
-    window.draw(square);  // Draw the square first
+    window.draw(square);
     if (piece != nullptr) {
-        piece->draw(window);  // Draw the piece on the square if it exists
+        piece->draw(window);
     }
+    
 }
 
-// Get the underlying SFML rectangle shape of the square
 sf::RectangleShape* Square::getSquare() {
     return &square;
+}
+
+// Sets square's grid position
+void Square::setGridPos(sf::Vector2f& position) {
+    gridPos = position;
+}
+// Gets square's grid position
+sf::Vector2f Square::getGridPos() {
+    return gridPos;
 }

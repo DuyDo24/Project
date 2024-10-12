@@ -2,16 +2,14 @@
 #define PIECE_H
 
 #include "Drawable.h"
-#include "Square.h" // Include Square if necessary
-#include <iostream>
 
-class Square; // Forward declaration
+class Square;
 
 class Piece : public Drawable {
 protected:
     bool hasMoved;
-    Square* square;  // Pointer to the square where the piece is located
-    int value;       // Value of the piece
+    Square* square;
+    int value;  // Value of the piece
 
 public:
     Piece(Square* startingSquare, int val);
@@ -23,8 +21,9 @@ public:
     int getValue() const;
 
     void draw(sf::RenderWindow& window) const override;
-    
-    void setHasMoved(bool moved) { hasMoved = moved; } // Setter for hasMoved
+    Square* getSquare() const {
+        return square;
+    }
 };
 
 #endif

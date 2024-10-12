@@ -6,10 +6,11 @@
 
 class Knight : public Piece {
 private:
-    static sf::Texture knightTexture;
+    static sf::Texture whiteKnightTexture;
+    static sf::Texture blackKnightTexture;
 public:
     // Constructor
-    Knight(Square* startingSquare);
+    Knight(Square* startingSquare, bool black);
     
     // Destructor
     ~Knight() override;

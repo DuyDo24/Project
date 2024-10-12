@@ -6,11 +6,12 @@
 
 class Queen : public Piece {
 private:
-    static sf::Texture queenTexture;
+    static sf::Texture blackQueenTexture;
+    static sf::Texture whiteQueenTexture;
 
 public:
     // Constructor
-    Queen(Square* startingSquare);
+    Queen(Square* startingSquare, bool black);
     
     // Destructor
     ~Queen() override;

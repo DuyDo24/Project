@@ -2,14 +2,16 @@
 #define ROOK_H
 
 #include "Piece.h"
+#include "Board.h"
 
 
 class Rook : public Piece {
 private:
-    static sf::Texture rookTexture;
+    static sf::Texture blackRookTexture;
+    static sf::Texture whiteRookTexture;
 public:
     // Constructor
-    Rook(Square* startingSquare);
+    Rook(Square* startingSquare, bool black);
     
     // Destructor
     ~Rook() override;

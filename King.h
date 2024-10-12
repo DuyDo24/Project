@@ -7,10 +7,11 @@
 
 class King : public Piece {
 private:
-    static sf::Texture kingTexture;
+    static sf::Texture blackKingTexture;
+    static sf::Texture whiteKingTexture;
 public:
     // Constructor
-    King(Square* startingSquare);
+    King(Square* startingSquare, bool black);
     
     // Destructor
     ~King() override;

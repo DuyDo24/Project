@@ -1,68 +1,74 @@
 #include "Pawn.h"
 #include <iostream>
 
+// Static textures for all Pawn instances
 sf::Texture Pawn::whitePawnTexture;
 sf::Texture Pawn::blackPawnTexture;
 
 // Constructor
-Pawn::Pawn(Square* startingSquare, bool black)
-    : Piece(startingSquare, 1) {
-    // Load textures only if they are not already loaded
-    if (black) {
-        if (blackPawnTexture.getSize().x == 0) { // Check if texture is already loaded
-            if (!blackPawnTexture.loadFromFile("textures/Chess_pdt60.png")) {
-                std::cerr << "Error loading black pawn texture" << std::endl;
-            }
+Pawn::Pawn(Square* startingSquare, bool isWhite)
+    : Piece(startingSquare, 1), isWhite(isWhite), hasMoved(false)  // 1 is the value of the Pawn
+{
+    if (!isWhite) {
+        if (!blackPawnTexture.loadFromFile("textures/Chess_pdt60.png")) {
+            std::cerr << "Error loading black pawn texture" << std::endl;
         }
-        setTexture(blackPawnTexture);  // Set texture for black pawn
+        setTexture(Pawn::blackPawnTexture);
     } else {
-        if (whitePawnTexture.getSize().x == 0) { // Check if texture is already loaded
-            if (!whitePawnTexture.loadFromFile("textures/Chess_plt60.png")) {
-                std::cerr << "Error loading white pawn texture" << std::endl;
-            }
+        if (!whitePawnTexture.loadFromFile("textures/Chess_plt60.png")) {
+            std::cerr << "Error loading white pawn texture" << std::endl;
         }
-        setTexture(whitePawnTexture);  // Set texture for white pawn
+        setTexture(Pawn::whitePawnTexture);
     }
 }
+
+// Destructor
+Pawn::~Pawn() {}
 
 bool Pawn::isValidMove(const sf::Vector2f& start, const sf::Vector2f& end) const {
-    // Calculate the change in positions
-    float dx = end.x - start.x;  // Change in x
-    float dy = end.y - start.y;  // Change in y
+    float dx = std::abs(end.x - start.x);  // Horizontal difference
+    float dy = end.y - start.y;            // Vertical difference
 
-    // If the piece is white (moving upwards)
-    if (start.y > end.y) {
-        // Check for regular move
-        if (dx == 0) { // No horizontal movement
-            if (dy == -50 && !hasMoved) { // Initial double move
-                return true; // Valid two-square move
-            }
-            if (dy == -50 && hasMoved) { // Regular one-square move
-                return true; // Valid one-square move
-            }
+    // Movement for white pawns (forward is negative y)
+    if (isPawnWhite()) {
+        if (dx == 0 && dy == -1) {  // Move one square forward
+            return true;
         }
-        // Check for diagonal capture
-        if (std::abs(dx) == 50 && dy == -50) { // One square diagonally up
-            return true; // Valid diagonal capture move
+        if (dx == 0 && dy == -2 && isFirstMove()) {  // Move two squares forward on first move
+            return true;
         }
-    }
-    // If the piece is black (moving downwards)
+        if (dx == 1 && dy == -1) {  // Diagonal capture
+            return true;
+        }
+    } 
+    // Movement for black pawns (forward is positive y)
     else {
-        // Check for regular move
-        if (dx == 0) { // No horizontal movement
-            if (dy == 50 && !hasMoved) { // Initial double move
-                return true; // Valid two-square move
-            }
-            if (dy == 50 && hasMoved) { // Regular one-square move
-                return true; // Valid one-square move
-            }
+        if (dx == 0 && dy == 1) {  // Move one square forward
+            return true;
         }
-        // Check for diagonal capture
-        if (std::abs(dx) == 50 && dy == 50) { // One square diagonally down
-            return true; // Valid diagonal capture move
+        if (dx == 0 && dy == 2 && isFirstMove()) {  // Move two squares forward on first move
+            return true;
+        }
+        if (dx == 1 && dy == 1) {  // Diagonal capture
+            return true;
         }
     }
 
-    return false; // Invalid move
+    return false;  // If none of the conditions are met, the move is invalid
 }
 
+
+// Function to determine if the pawn is on its first move
+bool Pawn::isFirstMove() const {
+    return !hasMoved;  // The pawn is on its first move if `hasMoved` is false
+}
+
+// Function to update the pawn's move status
+void Pawn::setHasMoved(bool moved) {
+    hasMoved = moved;
+}
+
+// Function to check if the pawn is white
+bool Pawn::isPawnWhite() const {
+    return isWhite;
+}
