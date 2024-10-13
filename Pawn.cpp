@@ -12,13 +12,18 @@ Pawn::Pawn(Square* startingSquare, bool black)
         if (!blackPawnTexture.loadFromFile("textures/Chess_pdt60.png")) {
             std::cerr << "Error loading pawn texture" << std::endl;
         }
+        blackPieces.push_back(this);
         setTexture(Pawn::blackPawnTexture);
+        color = 0;
     } else {
         if (!whitePawnTexture.loadFromFile("textures/Chess_plt60.png")) {
             std::cerr << "Error loading pawn texture" << std::endl;
         }
+        whitePieces.push_back(this);
         setTexture(Pawn::whitePawnTexture);
+        color = 1;
     }
+    name = "Pawn";
 }
 
 // Returns move validity given integer start and end coordinates

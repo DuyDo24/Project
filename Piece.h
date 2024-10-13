@@ -2,6 +2,9 @@
 #define PIECE_H
 
 #include "Drawable.h"
+#include <string>
+#include <vector>
+#include <SFML/Graphics.hpp>
 
 class Square;
 
@@ -10,6 +13,8 @@ protected:
     bool hasMoved;
     Square* square;
     int value;  // Value of the piece
+    std::string name;
+    int color; // black = 0 white = 1
 
 public:
     Piece(Square* startingSquare, int val);
@@ -22,6 +27,12 @@ public:
     int getValue() const;
 
     void setSquare(Square* square);
+
+    std::string getName() const;
+    int getColor();
+
+    static std::vector<Piece*> whitePieces;
+    static std::vector<Piece*> blackPieces;
 
     void draw(sf::RenderWindow& window) const override;
 };

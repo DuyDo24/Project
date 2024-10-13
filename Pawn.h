@@ -2,6 +2,7 @@
 #define PAWN_H
 
 #include "Piece.h"
+#include <SFML/Graphics.hpp>
 
 class Pawn : public Piece {
 private:
