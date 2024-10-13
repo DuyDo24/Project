@@ -1,9 +1,12 @@
 #include "Game.h"
 #include <algorithm>
+
+// Creates a default state game (starting position)
 Game::Game() {
     gamePhase = 0;
 }
 
+// Handles game logic when a click occurs to select and move pieces
 void Game::handleClick(sf::RenderWindow& window) {
     if (gamePhase == 0) { // Selecting piece to move
         // Set origin square
@@ -59,6 +62,7 @@ void Game::handleClick(sf::RenderWindow& window) {
     }
 }
 
+// Returns board
 Board* Game::getBoard() {
     return &board;
 }

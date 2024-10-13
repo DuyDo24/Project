@@ -6,15 +6,20 @@
 class Game {
     private:
         Board board;
+        // Variable representing phase of the game
         // 0 = selecting piece
         // 1 = selecting square
         int gamePhase;
-        Square* origin; 
+
+        // Pointers to squares used in handleClick function
+        Square* origin;
         Square* destination;
     public:
+        // Creates a default state game (starting position)
         Game();
+        // Returns board
         Board* getBoard();
-        // Handles game logic when a click occurs
+        // Handles game logic when a click occurs to select and move pieces
         void handleClick(sf::RenderWindow& window);
 };
 

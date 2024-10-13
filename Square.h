@@ -8,15 +8,21 @@
 class Piece;
 class Square : public Clickable {
     private:
-        // Drawing
+        //-- Drawing --//
+        // Shape object used for drawing
         sf::RectangleShape square;
+        // Color of drawn square when not highlighted
         sf::Color defaultColor;
+        // Color of drawn square when highlighted
         sf::Color highlightedColor;
 
-        // Game logic
+        //-- Game logic --//
+        // Associated piece
         Piece* piece;
+        // Vector2 representing grid coordinates (0-indexed)
         sf::Vector2f gridPos;
     public:
+        // Default constructor
         Square();
         
         //-- Drawing --//
@@ -24,11 +30,11 @@ class Square : public Clickable {
         // Return the square's RectangleShape object
         sf::RectangleShape* getSquare();
 
-        // Set default color of square; automatically sets highlighted color
+        // Set default color of square and set highlighted color to red-shifted version of default color
         void setColor(sf::Color color);
         // Set highlighted status of square (swaps RectangleShape fill color between default/highlighted)
         void setHighlight(bool highlighted);
-        // Set position of square's RectangleShape; automatically moves hitbox
+        // Set position of square's RectangleShape and hitbox
         void setPosition(sf::Vector2f position);
         // Draws square and associated piece
         void draw(sf::RenderWindow& window);

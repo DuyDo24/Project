@@ -9,7 +9,7 @@ Drawable::Drawable(const sf::Vector2f& position) : point(position) {}
 // Destructor
 Drawable::~Drawable() {}
 
-// Method to set the position of the drawable object
+// Method to set the position of the drawable object's image
 void Drawable::setPosition(const sf::Vector2f& position) {
     point = position;
     image.setPosition(point);  // SFML's setPosition for Sprite
