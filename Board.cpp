@@ -62,7 +62,9 @@ void Board::movePiece(Square* origin, Square* destination) {
     }
     if (origin->getPiece() != nullptr) {
         Piece* movingPiece = origin->getPiece();
+        // Set new piece/square
         destination->setPiece(movingPiece);
+        movingPiece->setSquare(destination);
         origin->removePiece();
     }
 }
@@ -70,31 +72,16 @@ void Board::movePiece(Square* origin, Square* destination) {
 bool Board::checkValidMove(Square* origin, Square* destination) {
     // Set piece to be moved
     Piece* movingPiece = origin->getPiece();
-    // Set start coordinates
-    sf::Vector2f start = origin->getGridPos();
     // Set end coordinates
     sf::Vector2f end = destination->getGridPos();
     
-    return movingPiece->isValidMove(start, end);
+    return movingPiece->isValidMove(end);
 }
 
 std::vector<Square*> Board::getValidMoves(Square* origin) {
-    // Initialize vector of valid squares
-    std::vector<Square*> validSquares;
     // Set piece to be moved
     Piece* movingPiece = origin->getPiece();
-    // Set start coordinates
-    sf::Vector2f start = origin->getGridPos();
-    for (int i = 0; i < 8; i++) {
-        for (int j = 0; j < 8; j++) {
-            // Set destination coordinates to the indexed square
-            sf::Vector2f end = squares[i][j].getGridPos();
-            // Check if move from start to end is valid
-            if (movingPiece->isValidMove(start, end) == true) {
-                // Add square to valid squares if so
-                validSquares.push_back(&squares[i][j]);
-            }
-        }
-    }
+    // Get vector of valid squares
+    std::vector<Square*> validSquares = movingPiece->getValidMoves(squares);
     return validSquares;
 }

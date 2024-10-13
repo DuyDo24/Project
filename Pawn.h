@@ -9,6 +9,6 @@ private:
     static sf::Texture blackPawnTexture;
 public:
     Pawn(Square* startingSquare, bool black);
-    bool isValidMove(const sf::Vector2f& start, const sf::Vector2f& end) const override;
+    bool isValidMove(const sf::Vector2f& end) const override;
 };
 #endif

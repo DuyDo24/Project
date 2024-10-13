@@ -10,15 +10,19 @@ Piece::Piece(Square* startingSquare, int val)
 
 Piece::~Piece() {}
 
-void Piece::move(const sf::Vector2f& newPosition) {
-    if (isValidMove(point, newPosition)) {
-        setPosition(newPosition);
-        hasMoved = true;
-    }
-}
+// void Piece::move(const sf::Vector2f& newPosition) {
+//     if (isValidMove(point, newPosition)) {
+//         setPosition(newPosition);
+//         hasMoved = true;
+//     }
+// }
 
 int Piece::getValue() const {
     return value;
+}
+
+void Piece::setSquare(Square* square) {
+    this->square = square;
 }
 
 void Piece::draw(sf::RenderWindow& window) const {
