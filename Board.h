@@ -14,6 +14,7 @@ class Board {
         
         //-- Game logic --//
         Square* getChessSquare(int x, int y);
+        Square* getChessSquare(sf::Vector2f gridPos);
         Square* getClickedSquare(sf::RenderWindow& window);
         void movePiece(Square* origin, Square* destination);
 

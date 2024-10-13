@@ -2,6 +2,10 @@
 #include "Board.h"
 #include "Pawn.h"
 #include "Knight.h"
+#include "Bishop.h"
+#include "King.h"
+#include "Queen.h"
+#include "Rook.h"
 #include "Game.h"
 int main()
 {
@@ -18,8 +22,15 @@ int main()
     // Pawn pawn4(board->getChessSquare(4, 1), false);
     // Works
 
-    Knight k1(board->getChessSquare(1,1), true);
+    Knight n1(board->getChessSquare(3,1), true);
+
+    Bishop b1(board->getChessSquare(1,1), true);
+
+    King k1(board->getChessSquare(2,1), true);
+
+    Queen q1(board->getChessSquare(4,1), true);
     
+    Rook r1(board->getChessSquare(5,1), true);
     //Square s1;
 
     // sf::RectangleShape square;
