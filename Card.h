@@ -6,20 +6,20 @@
 #include "Piece.h"  // Include your Piece class header
 
 class Card {
-private:
-    Piece* piece;  // Pointer to the associated piece
-    sf::RectangleShape cardShape; // Shape representing the card
-    sf::Text cardText;          // Text displaying piece name or value
-    sf::Sprite image;
-    int pos; //position of cards in a line
-    int color; // black = 0, white = 1;
+    protected:
+        Piece* piece;  // Pointer to the associated piece
+        sf::RectangleShape cardShape; // Shape representing the card
+        sf::Text cardText;          // Text displaying piece name or value
+        sf::Sprite image;
+        int pos; //position of cards in a line
+        int color; // black = 0, white = 1;
 
-public:
-    Card(Piece* piece, const sf::Font& font, int pos); // Constructor to create a card with a piece
-
-    void draw(sf::RenderWindow& window) const; // Method to draw the card
-    Piece* getPiece() const; // Method to get the associated piece
-    std::vector<Piece*> getavailPieces(std::vector<Piece*> visiblePieces);
+    public:
+        Card();
+        Card(Piece *piece, const sf::Font& font, int pos); // Constructor to create a card with a piece
+        void draw(sf::RenderWindow& window) const; // Method to draw the card
+        Piece* getPiece() const; // Method to get the associated piece
+        int getColor();
 };
 
 #endif
