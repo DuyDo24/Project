@@ -47,10 +47,6 @@ void Square::draw(sf::RenderWindow& window) {
     if (piece != nullptr) {
         piece->draw(window);
     }
-<<<<<<< HEAD
-    
-=======
->>>>>>> RiceChad-Cards
 }
 
 sf::RectangleShape* Square::getSquare() {
