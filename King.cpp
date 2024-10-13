@@ -47,12 +47,14 @@ std::vector<Square*> King::getValidMoves(Square squares[8][8]) const {
     // Get start coordinates
     sf::Vector2f start = square->getGridPos();
     // Double for loop to check each 8 directions (+x +y, +x 0y, +x -y etc)
-    for (int i = 1; i >= -1; i--) {
-        for (int j = 1; j >= -1; j--) {
-             // Only run if i & j are not 0
-            if (!((i == 0) && (j == 0))) {
+    for (int x = 1; x >= -1; x--) {
+        for (int y = 1; y >= -1; y--) {
+             // Only run if x & y are not 0
+            if (!((x == 0) && (y == 0))) {
+                // Unit vector for direction
+                sf::Vector2f direction(x, y);
                 // One move per direction
-                sf::Vector2f end = start + sf::Vector2f(i, j);
+                sf::Vector2f end = start + direction;
                 if (isValidMove(end)) {
                     if (squares[(int) end.x][(int) end.y].getPiece() == nullptr) { // Check if square is free
                         // Needs check for friendly/enemy piece

@@ -4,6 +4,7 @@
 #include "Knight.h"
 #include "Bishop.h"
 #include "King.h"
+#include "Queen.h"
 #include "Game.h"
 int main()
 {
@@ -25,6 +26,8 @@ int main()
     Bishop b1(board->getChessSquare(1,1), true);
 
     King k1(board->getChessSquare(2,1), true);
+
+    Queen q1(board->getChessSquare(4,1), true);
     
     //Square s1;
 

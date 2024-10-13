@@ -48,16 +48,18 @@ std::vector<Square*> Bishop::getValidMoves(Square squares[8][8]) const {
     // Get start coordinates
     sf::Vector2f start = square->getGridPos();
     // Double for loop to check each quadrant/diagonal (+x +y, +x -y etc)
-    for (int i = 1; i >= -1; i -= 2) {
-        for (int j = 1; j >= -1; j -= 2) {
+    for (int x = 1; x >= -1; x -= 2) {
+        for (int y = 1; y >= -1; y -= 2) {
+            // Create unit vector for direction
+            sf::Vector2f direction(x, y);
             // For each quadrant, the diagonal line of squares is checked
             // Set current position to diagonally adjacent square
-            sf::Vector2f currentPosition = start + sf::Vector2f(i, j);
+            sf::Vector2f currentPosition = start + direction;
             
+            // Loop conditions
             bool outsideBoard = false;
             bool blocked = false;
-            // Check if first square is outside board
-            if (currentPosition.x < 0 || currentPosition.x > 7 || currentPosition.y < 0 || currentPosition.y > 7) {
+            if (currentPosition.x < 0 || currentPosition.x > 7 || currentPosition.y < 0 || currentPosition.y > 7) { // Check if first square is outside board
                 outsideBoard = true;
             } if (squares[(int) currentPosition.x][(int) currentPosition.y].getPiece() != nullptr) { // Check if first square is occupied
                 blocked = true;
@@ -70,7 +72,7 @@ std::vector<Square*> Bishop::getValidMoves(Square squares[8][8]) const {
                     validMoves.push_back(&squares[(int) currentPosition.x][(int) currentPosition.y]);
                 }
                 // Set next square in diagonal
-                sf::Vector2f newPosition = currentPosition + sf::Vector2f(i, j);
+                sf::Vector2f newPosition = currentPosition + direction;
                 // Check if next square is outside the board
                 if (newPosition.x < 0 || newPosition.x > 7 || newPosition.y < 0 || newPosition.y > 7) {
                     outsideBoard = true;

@@ -55,11 +55,11 @@ std::vector<Square*> Knight::getValidMoves(Square squares[8][8]) const {
     // Get start coordinates
     sf::Vector2f start = square->getGridPos();
     // Double for loop to check each quadrant (+x +y, +x -y etc)
-    for (int i = 1; i >= -1; i -= 2) {
-        for (int j = 1; j >= -1; j -= 2) {
+    for (int x = 1; x >= -1; x -= 2) {
+        for (int y = 1; y >= -1; y -= 2) {
             // Two moves per quadrant
             // 2 squares x, 1 square y
-            sf::Vector2f end = start + sf::Vector2f(2*i, j);
+            sf::Vector2f end = start + sf::Vector2f(2*x, y);
             if (isValidMove(end)) {
                 if (squares[(int) end.x][(int) end.y].getPiece() == nullptr) { // Check if square is free
                 // Needs check for friendly/enemy piece
@@ -67,7 +67,7 @@ std::vector<Square*> Knight::getValidMoves(Square squares[8][8]) const {
                 }
             }
             // 1 square x, 2 squares y
-            end = start + sf::Vector2f(i, 2*j);
+            end = start + sf::Vector2f(x, 2*y);
             if (isValidMove(end)) {
                 if (squares[(int) end.x][(int) end.y].getPiece() == nullptr) { // Check if square is free
                 // Needs check for friendly/enemy piece
