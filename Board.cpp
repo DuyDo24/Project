@@ -41,6 +41,10 @@ Square* Board::getChessSquare(int x, int y) {
     return &squares[x][y];
 }
 
+Square* Board::getChessSquare(sf::Vector2f gridPos) {
+    return &squares[(int) gridPos.x][(int) gridPos.y];
+}
+
 Square* Board::getClickedSquare(sf::RenderWindow& window) {
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {

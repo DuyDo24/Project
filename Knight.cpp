@@ -34,8 +34,6 @@ bool Knight::isValidMove(const sf::Vector2f& end) const {
         return false;
     }
     // Calculates absolute distance between start and end squares
-    // Absolute distance can be used as the knight is directionally agnostic and it can move through pieces
-    // which means no checks are needed for blocking pieces
     sf::Vector2f start = square->getGridPos();
     float dx = std::abs(end.x - start.x);
     float dy = std::abs(end.y - start.y);
@@ -52,25 +50,29 @@ bool Knight::isValidMove(const sf::Vector2f& end) const {
 }
 
 std::vector<Square*> Knight::getValidMoves(Square squares[8][8]) const {
+    // Initialize valid moves vector
     std::vector<Square*> validMoves;
+    // Get start coordinates
     sf::Vector2f start = square->getGridPos();
     // Double for loop to check each quadrant (+x +y, +x -y etc)
     for (int i = 1; i >= -1; i -= 2) {
         for (int j = 1; j >= -1; j -= 2) {
             // Two moves per quadrant
-            // 2x 1y
+            // 2 squares x, 1 square y
             sf::Vector2f end = start + sf::Vector2f(2*i, j);
             if (isValidMove(end)) {
-                int x = end.x;
-                int y = end.y;
-                validMoves.push_back(&squares[x][y]);
+                if (squares[(int) end.x][(int) end.y].getPiece() == nullptr) { // Check if square is free
+                // Needs check for friendly/enemy piece
+                    validMoves.push_back(&squares[(int) end.x][(int) end.y]);
+                }
             }
-            // 1x 2y
+            // 1 square x, 2 squares y
             end = start + sf::Vector2f(i, 2*j);
             if (isValidMove(end)) {
-                int x = end.x;
-                int y = end.y;
-                validMoves.push_back(&squares[x][y]);
+                if (squares[(int) end.x][(int) end.y].getPiece() == nullptr) { // Check if square is free
+                // Needs check for friendly/enemy piece
+                    validMoves.push_back(&squares[(int) end.x][(int) end.y]);
+                }
             }
         }    
     }

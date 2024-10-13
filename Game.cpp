@@ -1,5 +1,5 @@
 #include "Game.h"
-
+#include <algorithm>
 Game::Game() {
     gamePhase = 0;
 }
@@ -26,8 +26,15 @@ void Game::handleClick(sf::RenderWindow& window) {
     } else { // Selecting square to move to
         // Set destination square
         destination = board.getClickedSquare(window);
-        // Check move validity
-        bool valid = board.checkValidMove(origin, destination);
+        // Get valid moves
+        std::vector<Square*> validSquares = board.getValidMoves(origin);
+        // Check if destination square is in valid moves
+        bool valid;
+        if (std::find(validSquares.begin(), validSquares.end(), destination) != validSquares.end()) {
+            valid = true;
+        } else {
+            valid = false;
+        }
         // Check if user clicked the same square twice or move is invalid
         if ((origin == destination) || !valid) {
             return;
