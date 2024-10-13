@@ -1,4 +1,4 @@
 compile:
-	g++ main.cpp Square.cpp Board.cpp Drawable.cpp Piece.cpp Clickable.cpp Pawn.cpp Knight.cpp Bishop.cpp King.cpp Game.cpp -o sfml-app -lsfml-graphics -lsfml-window -lsfml-system
+	g++ main.cpp Square.cpp Board.cpp Drawable.cpp Piece.cpp Clickable.cpp Pawn.cpp Knight.cpp Bishop.cpp King.cpp Queen.cpp Game.cpp -o sfml-app -lsfml-graphics -lsfml-window -lsfml-system
 	./sfml-app
 clean:
