@@ -14,7 +14,7 @@ void Game::handleClick(sf::RenderWindow& window) {
             return;
         }
         // Highlight origin square
-        origin->setHighlight(true);
+        // origin->setHighlight(true);
         // Change game phase
         gamePhase = 1;
         // Highlight valid moves
@@ -26,6 +26,14 @@ void Game::handleClick(sf::RenderWindow& window) {
     } else { // Selecting square to move to
         // Set destination square
         destination = board.getClickedSquare(window);
+        // Check if user clicked same square
+        if (origin == destination) {
+            gamePhase = 0; // Go back to piece selection (cancel move)
+            origin = nullptr; // Reset origin pointer
+            board.unhighlightAll();
+            return; // Early return
+        }
+
         // Get valid moves
         std::vector<Square*> validSquares = board.getValidMoves(origin);
         // Check if destination square is in valid moves
@@ -35,13 +43,16 @@ void Game::handleClick(sf::RenderWindow& window) {
         } else {
             valid = false;
         }
-        // Check if user clicked the same square twice or move is invalid
-        if ((origin == destination) || !valid) {
+        // Check if move is invalid i.e non-highlighted square clicked
+        if (!valid) {
             return;
         } else { // Move piece
             board.movePiece(origin, destination);
             // Change game phase
             gamePhase = 0;
+            // Reset origin and destination pointers
+            origin = nullptr;
+            destination = nullptr;
             // Un-highlight squares
             board.unhighlightAll();
         }
