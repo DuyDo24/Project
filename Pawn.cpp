@@ -18,9 +18,6 @@ Pawn::Pawn(Square* startingSquare, bool black)
         }
         setTexture(Pawn::whitePawnTexture);
     }
-    
-    
-    
 }
 
 bool Pawn::isValidMove(const sf::Vector2f& start, const sf::Vector2f& end) const {
