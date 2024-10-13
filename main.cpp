@@ -5,6 +5,7 @@
 #include "Bishop.h"
 #include "King.h"
 #include "Queen.h"
+#include "Rook.h"
 #include "Game.h"
 int main()
 {
@@ -29,6 +30,7 @@ int main()
 
     Queen q1(board->getChessSquare(4,1), true);
     
+    Rook r1(board->getChessSquare(5,1), true);
     //Square s1;
 
     // sf::RectangleShape square;
