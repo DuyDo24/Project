@@ -8,16 +8,16 @@
 class Player {
     protected:
         std::vector<Piece*> pieces;
-        std::vector<Piece*> CapturedPieces;
+        std::vector<Piece*> capturedPieces;
         std::vector<Card*> hand;
         int color;
     public:
         Player(int color);
-        void drawCards(sf::RenderWindow& window);
         void generateCards(std::vector<Piece*> pieces, sf::Font &font);
-        void capturePiece(Piece *piece);
+        void drawCards(sf::RenderWindow& window);
         void removePiece(Piece *piece);
         void addPiece(Piece *piece);
+        void capturePiece(Piece *piece, Player *opponent);
 };
 
 #endif

@@ -46,3 +46,30 @@ void Player::drawCards(sf::RenderWindow& window) {
         hand[i]->draw(window);
     }
 }
+
+void Player::removePiece(Piece *piece){
+    int size = pieces.size();
+    bool found = false;
+    int pos;
+    for(int i=0;i<size;i++) {
+        if(pieces[i] == piece) {
+            found = true;
+            pos = i;
+        }
+    }
+    if(found) {
+        pieces.erase(pieces.begin()+pos);
+    }
+
+    capturedPieces.push_back(piece);
+}
+
+
+void Player::addPiece(Piece *piece) {
+    pieces.push_back(piece);
+}
+
+
+void Player::capturePiece(Piece *piece, Player *opponent) {
+    opponent->removePiece(piece);
+}
