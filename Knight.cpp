@@ -16,16 +16,16 @@ Knight::Knight(Square* startingSquare, bool black)
         }
         blackPieces.push_back(this);
         setTexture(Knight::blackKnightTexture);
-        color = 0;
+        this->color = 0;
     } else {
         if (!whiteKnightTexture.loadFromFile("textures/Chess_nlt60.png")) {
             std::cerr << "Error loading knight texture" << std::endl;
         }
         whitePieces.push_back(this);
         setTexture(Knight::whiteKnightTexture);
-        color = 1;
+        this->color = 1;
     }
-    name = "Knight";
+    this->name = "Knight";
 
 }
 

@@ -7,17 +7,23 @@
 #include "Queen.h"
 #include "Rook.h"
 #include "Game.h"
+#include "Player.h"
+#include "Card.h"
+
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(400, 400), "SFML works!");
+    sf::RenderWindow window(sf::VideoMode(600, 600), "SFML works!");
 
     Game game;
+
+    sf::Font font;
+    font.loadFromFile("arial.ttf");
     
     Board* board = game.getBoard();
 
     // Testing adding pieces to board
-    // Pawn pawn(board->getChessSquare(1, 1), true);
-    // Pawn pawn2(board->getChessSquare(2, 1), false);
+    //Pawn pawn(board->getChessSquare(1, 1), true);
+    //Pawn pawn2(board->getChessSquare(2, 1), false);
     // Pawn pawn3(board->getChessSquare(3, 1), true);
     // Pawn pawn4(board->getChessSquare(4, 1), false);
     // Works
@@ -31,6 +37,9 @@ int main()
     Queen q1(board->getChessSquare(4,1), true);
     
     Rook r1(board->getChessSquare(5,1), true);
+    
+    Player player1(0);
+    player1.generateCards(k1.blackPieces, font);
     //Square s1;
 
     // sf::RectangleShape square;
@@ -76,14 +85,14 @@ int main()
             }
         }
 
-        window.clear();
+        window.clear(sf::Color(135, 206, 250));
 
         // sf::Vector2f pos(100,100);
         // s1.setColor(sf::Color::White);
         // s1.draw(pos, window);
 
         //window.draw(square);
-
+        player1.drawCards(window);
         board->drawBoard(window);
         
         // pawn.draw(window);

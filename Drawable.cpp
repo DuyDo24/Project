@@ -20,6 +20,10 @@ void Drawable::setTexture(const sf::Texture& texture) {
     image.setTexture(texture); // SFML's setTexture for Sprite
 }
 
+sf::Sprite Drawable::getImage() {
+    return image;
+}
+
 // Getter for the position
 sf::Vector2f Drawable::getPosition() const {
     return point;
