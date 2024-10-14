@@ -29,6 +29,14 @@ void Player::generateCards(sf::Font &font) {
         }
     }
     int size = availPieces.size();
+    if(size == 0) {
+        for(int i=0;i<3;i++) {
+            if (hand[i] != nullptr) {
+                delete hand[i];  // Free the old Card objects to avoid memory leaks
+            }
+            hand[i] = nullptr;
+        }
+    }
     
     int num;
     
@@ -43,7 +51,9 @@ void Player::generateCards(sf::Font &font) {
 
 void Player::drawCards(sf::RenderWindow& window) {
     for(int i=0;i<3;i++) {
-        hand[i]->draw(window);
+        if(hand[i] != nullptr) {
+            hand[i]->draw(window);
+        }
     }
 }
 
