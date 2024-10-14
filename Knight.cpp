@@ -67,7 +67,8 @@ std::vector<Square*> Knight::getValidMoves(Square squares[8][8]) const {
             sf::Vector2f end = start + sf::Vector2f(2*x, y);
             if (isValidMove(end)) {
                 if (squares[(int) end.x][(int) end.y].getPiece() == nullptr) { // Check if square is free
-                // Needs check for friendly/enemy piece
+                    validMoves.push_back(&squares[(int) end.x][(int) end.y]);
+                } else if (squares[(int) end.x][(int) end.y].getPiece()->getColor() != color) { // Adds square if occupied by enemy piece
                     validMoves.push_back(&squares[(int) end.x][(int) end.y]);
                 }
             }
@@ -75,7 +76,8 @@ std::vector<Square*> Knight::getValidMoves(Square squares[8][8]) const {
             end = start + sf::Vector2f(x, 2*y);
             if (isValidMove(end)) {
                 if (squares[(int) end.x][(int) end.y].getPiece() == nullptr) { // Check if square is free
-                // Needs check for friendly/enemy piece
+                    validMoves.push_back(&squares[(int) end.x][(int) end.y]);
+                } else if (squares[(int) end.x][(int) end.y].getPiece()->getColor() != color) { // Adds square if occupied by enemy piece
                     validMoves.push_back(&squares[(int) end.x][(int) end.y]);
                 }
             }
