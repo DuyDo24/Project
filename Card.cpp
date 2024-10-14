@@ -13,24 +13,24 @@ Card::Card(Piece *pPiece, const sf::Font& font, int pos) {
     cardShape.setSize(sf::Vector2f(100, 150)); // Set size of the card
     color = piece->getColor();
     if(color == 0) {
-        cardShape.setFillColor(sf::Color::White);  // White background
+        cardShape.setFillColor(sf::Color::White);  // If piece is black, White background
     } else {
-        cardShape.setFillColor(sf::Color::Black);
+        cardShape.setFillColor(sf::Color::Black); //if piece is white, black background
     }
-    cardShape.setPosition(10+(pos*110),410);
+    cardShape.setPosition(10+(pos*110),410); //setting position below board, x value depending on position (order) of card
 
     // Set up card text
     cardText.setFont(font);
-    cardText.setString(piece->getName());
+    cardText.setString(piece->getName()); //getting name of piece
     cardText.setCharacterSize(18);
     if(color == 0) {
-        cardText.setFillColor(sf::Color::Black);
+        cardText.setFillColor(sf::Color::Black); //if piece is black, black text
     } else {
-        cardText.setFillColor(sf::Color::White);
+        cardText.setFillColor(sf::Color::White); // if piece is white, white text
     }
-    cardText.setPosition(cardShape.getPosition().x + 50 - ((cardText.getLocalBounds().width)/2), cardShape.getPosition().y + 15); // Offset for padding
-    image = piece->getImage();
-    image.setPosition(cardShape.getPosition().x+25,cardShape.getPosition().y+50);
+    cardText.setPosition(cardShape.getPosition().x + 50 - ((cardText.getLocalBounds().width)/2), cardShape.getPosition().y + 15); // setting text to the middle of the card in terms of width
+    image = piece->getImage(); //getting image from the piece
+    image.setPosition(cardShape.getPosition().x+25,cardShape.getPosition().y+50); //setting position to the centre of the card
 }
 
 // Method to draw the card
