@@ -22,10 +22,10 @@ int main()
     Board* board = game.getBoard();
 
     // Testing adding pieces to board
-    //Pawn pawn(board->getChessSquare(1, 1), true);
-    //Pawn pawn2(board->getChessSquare(2, 1), false);
-    // Pawn pawn3(board->getChessSquare(3, 1), true);
-    // Pawn pawn4(board->getChessSquare(4, 1), false);
+    Pawn pawn(board->getChessSquare(1, 6), true);
+    Pawn pawn2(board->getChessSquare(2, 6), false);
+    Pawn pawn3(board->getChessSquare(3, 6), true);
+    Pawn pawn4(board->getChessSquare(4, 6), false);
     // Works
 
     Knight n1(board->getChessSquare(3,1), true);
