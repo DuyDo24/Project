@@ -45,7 +45,7 @@ int main()
     // square.setSize(sf::Vector2f(100,100));
     // square.setPosition(sf::Vector2f(100,100));
 
-    game.getPlayer(0)->generateCards(font);
+    game.getPlayer(1)->generateCards(font);
 
     while (window.isOpen())
     {
@@ -76,7 +76,7 @@ int main()
                 // Works
 
                 // Testing board getClickedSquare + two-step moving (choosing piece and target)
-                game.handleClick(window);
+                game.handleClick(window, font);
                 // Works
 
                 // Testing square highlighting
@@ -92,7 +92,7 @@ int main()
         // s1.draw(pos, window);
 
         //window.draw(square);
-        game.getPlayer(0)->drawCards(window);
+        game.getPlayer(game.getPlayerTurn())->drawCards(window);
         board->drawBoard(window);
         
         // pawn.draw(window);

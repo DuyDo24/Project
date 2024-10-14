@@ -40,3 +40,7 @@ int Piece::getColor() {
 void Piece::draw(sf::RenderWindow& window) const {
     window.draw(image);
 }
+
+Square* Piece::getSquare() {
+    return square;
+}

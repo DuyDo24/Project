@@ -13,8 +13,10 @@ Card::Card(Piece *pPiece, const sf::Font& font, int pos) {
     cardShape.setSize(sf::Vector2f(100, 150)); // Set size of the card
     color = piece->getColor();
     if(color == 0) {
+        cardColor = sf::Color::White;
         cardShape.setFillColor(sf::Color::White);  // If piece is black, White background
     } else {
+        cardColor = sf::Color::Black;
         cardShape.setFillColor(sf::Color::Black); //if piece is white, black background
     }
     cardShape.setPosition(10+(pos*110),410); //setting position below board, x value depending on position (order) of card
@@ -31,6 +33,17 @@ Card::Card(Piece *pPiece, const sf::Font& font, int pos) {
     cardText.setPosition(cardShape.getPosition().x + 50 - ((cardText.getLocalBounds().width)/2), cardShape.getPosition().y + 15); // setting text to the middle of the card in terms of width
     image = piece->getImage(); //getting image from the piece
     image.setPosition(cardShape.getPosition().x+25,cardShape.getPosition().y+50); //setting position to the centre of the card
+
+    hitbox = (sf::FloatRect(cardShape.getPosition(), cardShape.getSize())); // hitbox for clickable
+
+}
+
+void Card::setHighlight(bool highlighted) {
+    if (highlighted == true) {
+        cardShape.setFillColor(sf::Color(255, 122, 122, 255));
+    } else {
+        cardShape.setFillColor(cardColor);
+    }
 }
 
 // Method to draw the card

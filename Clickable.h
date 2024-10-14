@@ -1,5 +1,5 @@
 #ifndef CLICKABLE_H
-#define ClICKABLE_H
+#define CLICKABLE_H
 
 #include <SFML/Graphics.hpp>
 #include <string>

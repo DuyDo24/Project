@@ -27,6 +27,7 @@ public:
     int getValue() const;
 
     void setSquare(Square* square);
+    Square* getSquare();
 
     std::string getName() const;
     int getColor();

@@ -45,6 +45,7 @@ void Player::generateCards(sf::Font &font) {
             delete hand[i];  // Free the old Card objects to avoid memory leaks
         }
         num = rand() % size; //generating a random card from available cards
+        //std::cout << num << std::endl;
         hand[i] = new Card(availPieces[num], font, i);
     }
 }
@@ -56,6 +57,40 @@ void Player::drawCards(sf::RenderWindow& window) {
         }
     }
 }
+
+
+Card* Player::getClickedCard(sf::RenderWindow& window) {
+    for(int i=0;i<3;i++) {
+        if(hand[i] == nullptr) {
+            continue;
+        } else {
+            if(hand[i]->checkClicked(window)) {
+                return hand[i];
+            };
+        }
+    }
+    return nullptr;
+}
+
+std::vector<Piece*> Player::getPieces() {
+    return pieces;
+}
+
+std::vector<Square*> Player::getValidPieceSquares(Piece *piece) {
+    int size = pieces.size();
+    std::vector<Square*> validSquares;
+    for(int i=0;i<size;i++) {
+        if(pieces[i]->getName() == piece->getName()) {
+            validSquares.push_back(pieces[i]->getSquare());
+        }
+    }
+    return validSquares;
+}
+
+std::vector<Piece*> Player::getCapturedPieces() {
+    return capturedPieces;
+}
+
 
 void Player::removePiece(Piece *piece){
     int size = pieces.size();
