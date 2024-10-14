@@ -11,6 +11,9 @@ void Game::handleClick(sf::RenderWindow& window) {
     if (gamePhase == 0) { // Selecting piece to move
         // Set origin square
         origin = board.getClickedSquare(window);
+        if (origin == nullptr) { // if no square clicked
+            return;
+        }
         // Check if clicked square has a piece
         if (origin->getPiece() == nullptr) {
             // case where empty square is clicked; early return for now
@@ -29,6 +32,9 @@ void Game::handleClick(sf::RenderWindow& window) {
     } else { // Selecting square to move to
         // Set destination square
         destination = board.getClickedSquare(window);
+        if (destination == nullptr) { // if no square clicked
+            return;
+        }
         // Check if user clicked same square
         if (origin == destination) {
             gamePhase = 0; // Go back to piece selection (cancel move)
@@ -46,8 +52,8 @@ void Game::handleClick(sf::RenderWindow& window) {
         } else {
             valid = false;
         }
-        // Check if move is invalid i.e non-highlighted square clicked
-        if (!valid) {
+        
+        if (!valid) { // if move is invalid i.e non-highlighted square clicked
             return;
         } else { // Move piece
             board.movePiece(origin, destination);
