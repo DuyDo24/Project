@@ -35,20 +35,53 @@ bool Pawn::isValidMove(const sf::Vector2f& end) const {
     if (end.y < 0 || end.y > 7) { 
         return false;
     }
-    // Calculates absolute distance between start and end squares
-    // Absolute distance can be used as the knight is directionally agnostic and it can move through pieces
-    // which means no checks are needed for blocking pieces
+    // Calculates distance between start and end squares
     sf::Vector2f start = square->getGridPos();
     float dx = std::abs(end.x - start.x);
-    float dy = std::abs(end.y - start.y);
+    float dy = (end.y - start.y); // +dy = up, -dy = down
 
-    // Valid moves are any move that is 1 square away in 1 direction and 2 squares away in a different direction
-    // i.e dx = 1, dy = 2 or dx = 2, dy = 1
-    if (dx == 2 && dy == 1) {
-        return true;
-    }
-    if (dx == 1 && dy == 2) {
+    // Determine direction based on team color
+    int direction;
+    if (color == 1) {direction = -1;} 
+    else {direction = 1;}
+
+    // Valid moves are any move that is 1 square in y direction (depends on team) either straight or diagonal
+    // Diagonal moves are only valid when square is occupied, however this check is done in getValidMoves()
+    if ((dx == 1 || dx == 0) && dy == direction) {
         return true;
     }
     return false;
 }
+
+std::vector<Square*> Pawn::getValidMoves(Square squares[8][8]) const {
+    // Initialize valid moves vector
+    std::vector<Square*> validMoves;
+    // Get start coordinates
+    sf::Vector2f start = square->getGridPos();
+    // For loop to check both y directions
+    for (int y = 1; y >= -1; y -= 2) {
+        // Check both diagonals & straight ahead square
+        for (int x = 1; x >= -1; x--) {
+            sf::Vector2f end = start + sf::Vector2f(x, y);
+            Square* endSquare = &squares[(int) end.x][(int) end.y];
+            if (isValidMove(end)) {
+                if (std::abs(x) == 1) { // if diagonal
+                    if (endSquare->getPiece() != nullptr) { // push square if occupied
+                        if (endSquare->getPiece()->getColor() != color) {   // & opposite color
+                            validMoves.push_back(endSquare);
+                        }
+                    }
+                } else { // if straight ahead
+                    if (endSquare->getPiece() == nullptr) { // push if unoccupied
+                        validMoves.push_back(endSquare);
+                    }
+                    
+                }
+            }
+        }
+    }
+    
+    return validMoves;
+}
+
+Pawn::~Pawn() {}

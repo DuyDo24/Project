@@ -66,7 +66,7 @@ void Game::handleClick(sf::RenderWindow& window) {
             return;
         }
         // Highlight origin square
-        // origin->setHighlight(true);
+        origin->setHighlight(true);
         // Change game phase
         gamePhase = 1;
         // Highlight valid moves
