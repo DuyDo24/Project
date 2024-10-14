@@ -20,6 +20,7 @@ class Card {
         void draw(sf::RenderWindow& window) const; // Method to draw the card
         Piece* getPiece() const; // Method to get the associated piece
         int getColor();
+        ~Card();
 };
 
 #endif

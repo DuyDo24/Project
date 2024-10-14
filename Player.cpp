@@ -1,10 +1,13 @@
 #include "Player.h"
 #include <random>
 #include <iostream>
+#include <vector>
+
 #include "Card.h"
 
 Player::Player(int color) {
     this->color = color; 
+    this->card = nullptr;
 }
 
 void Player::generateCards(std::vector<Piece*> pieces) {
@@ -32,9 +35,10 @@ void Player::generateCards(std::vector<Piece*> pieces) {
     font.loadFromFile("arial.ttf");
     std::cout << availPieces[0]->getColor() <<std::endl;
     //Card newCard(availPieces[0], font, 1);
-    Card *newCard = new Card(availPieces[0], font, 1);
-    std::cout << newCard << std::endl;
-    card = newCard;
+    if (this->card != nullptr) {
+        delete this->card;  // Free the old Card object to avoid memory leaks
+    }
+    this->card = new Card(availPieces[0], font, 1);  // Assign the new Card
     //hand[0] = &newCard;
     //for(int i=0;i<3;i++) {
         //num = 0;

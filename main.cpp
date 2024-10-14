@@ -24,8 +24,8 @@ int main()
     Knight k1(board->getChessSquare(1,1), false);
     Knight k2(board->getChessSquare(3,3), false);
     Knight k3(board->getChessSquare(2,2), false);
-    Player *player1(0);
-    player1->generateCards(k3.whitePieces);
+    Player player1(0);
+    player1.generateCards(k3.whitePieces);
 
     //Square s1;
 
@@ -79,7 +79,7 @@ int main()
         // s1.draw(pos, window);
 
         //window.draw(square);
-        //player1->drawCards(window);
+        player1.drawCards(window);
         board->drawBoard(window);
         
         // pawn.draw(window);

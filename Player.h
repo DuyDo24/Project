@@ -10,8 +10,8 @@ class Player {
         std::vector<Piece*> pieces;
         std::vector<Piece*> CapturedPieces;
         std::vector<Card*> hand;
-        Card *card;
         int color;
+        Card *card;
     public:
         Player(int color);
         void drawCards(sf::RenderWindow& window);

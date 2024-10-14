@@ -1,5 +1,6 @@
 #include "Card.h"
 #include <iostream>
+#include <vector>
 #include "Piece.h"
 
 // Constructor to initialize the card with a piece
@@ -47,3 +48,5 @@ Piece* Card::getPiece() const {
 int Card::getColor() {
     return color;
 }
+
+Card::~Card() {};
