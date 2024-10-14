@@ -7,17 +7,17 @@
 
 class Player {
     protected:
-        std::vector<Piece*> pieces;
-        std::vector<Piece*> CapturedPieces;
-        std::vector<Card*> hand;
-        int color;
+        std::vector<Piece*> pieces; //vector of player's current pieces on the board
+        std::vector<Piece*> capturedPieces; //vector of player's captured pieces
+        std::vector<Card*> hand; //players current hand of cards
+        int color; //player's piece color
     public:
-        Player(int color);
-        void generateCards(std::vector<Piece*> pieces, sf::Font &font);
-        void drawCards(sf::RenderWindow& window);
-        void removePiece(Piece *piece);
-        void addPiece(Piece *piece);
-        void capturePiece(Piece *piece, Player *opponent);
+        Player(int color); //initialiser with players color
+        void generateCards(std::vector<Piece*> pieces, sf::Font &font);  //function to generate 3 cards with the current available pieces
+        void drawCards(sf::RenderWindow& window);//function to draw all cards
+        void removePiece(Piece *piece); //function to remove a piece
+        void addPiece(Piece *piece); //function to add a piece
+        void capturePiece(Piece *piece, Player *opponent); //function to capture an opponents piece
 };
 
 #endif
