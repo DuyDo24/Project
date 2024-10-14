@@ -131,3 +131,8 @@ Player* Game::getPlayer(int color) {
         return playerWhite;
     }
 }
+
+Game::~Game() {
+    delete playerWhite;
+    delete playerBlack;
+}

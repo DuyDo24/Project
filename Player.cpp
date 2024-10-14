@@ -83,3 +83,16 @@ void Player::addPiece(Piece *piece) {
 void Player::capturePiece(Piece *piece, Player *opponent) {
     opponent->removePiece(piece);
 }
+
+Player::~Player() {
+    int size = pieces.size();
+    for(int i=0;i<size;i++) {
+        delete pieces[i];
+    }
+
+    size = capturedPieces.size();
+    for(int i=0;i<size;i++) {
+        delete capturedPieces[i];
+    }
+
+}

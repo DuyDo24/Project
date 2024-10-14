@@ -26,6 +26,7 @@ class Game {
         
         // Handles game logic when a click occurs to select and move pieces
         void handleClick(sf::RenderWindow& window);
+        ~Game();
 };
 
 #endif

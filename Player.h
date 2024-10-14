@@ -19,6 +19,7 @@ class Player {
         void removePiece(Piece *piece); //function to remove a piece
         void addPiece(Piece *piece); //function to add a piece
         void capturePiece(Piece *piece, Player *opponent); //function to capture an opponents piece
+        ~Player();
 };
 
 #endif
