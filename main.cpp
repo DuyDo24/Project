@@ -75,7 +75,7 @@ int main()
             }
         }
 
-        window.clear();
+        window.clear(sf::Color(135, 206, 250));
 
         // sf::Vector2f pos(100,100);
         // s1.setColor(sf::Color::White);

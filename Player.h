@@ -11,11 +11,10 @@ class Player {
         std::vector<Piece*> CapturedPieces;
         std::vector<Card*> hand;
         int color;
-        Card *card;
     public:
         Player(int color);
         void drawCards(sf::RenderWindow& window);
-        void generateCards(std::vector<Piece*> pieces, sf::Font);
+        void generateCards(std::vector<Piece*> pieces, sf::Font &font);
         void capturePiece(Piece *piece);
         void removePiece(Piece *piece);
         void addPiece(Piece *piece);
