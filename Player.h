@@ -13,6 +13,7 @@ class Player {
         int color; //player's piece color
     public:
         Player(int color); //initialiser with players color
+        Player();
         void generateCards(sf::Font &font);  //function to generate 3 cards with the current available pieces
         void drawCards(sf::RenderWindow& window);//function to draw all cards
         void removePiece(Piece *piece); //function to remove a piece

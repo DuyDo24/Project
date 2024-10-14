@@ -11,15 +11,19 @@ class Game {
         // 0 = selecting piece
         // 1 = selecting square
         int gamePhase;
+        Player *playerWhite;
+        Player *playerBlack;
 
         // Pointers to squares used in handleClick function
         Square* origin;
         Square* destination;
     public:
         // Creates a default state game (starting position)
-        Game(Player *playerWhite, Player *playerBlack);
+        Game();
         // Returns board
         Board* getBoard();
+        Player* getPlayer(int color);
+        
         // Handles game logic when a click occurs to select and move pieces
         void handleClick(sf::RenderWindow& window);
 };

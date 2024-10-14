@@ -10,8 +10,12 @@
 #include <iostream>
 
 // Creates a default state game (starting position)
-Game::Game(Player *playerWhite, Player *playerBlack) {
+Game::Game() {
     gamePhase = 0;
+
+    playerBlack = new Player(0);
+    playerWhite = new Player(1);
+
 
     playerBlack->addPiece(new Rook(board.getChessSquare(0, 0), true));
     playerBlack->addPiece(new Knight(board.getChessSquare(1, 0), true));
@@ -21,16 +25,16 @@ Game::Game(Player *playerWhite, Player *playerBlack) {
     playerBlack->addPiece(new Bishop(board.getChessSquare(5, 0), true));
     playerBlack->addPiece(new Knight(board.getChessSquare(6, 0), true));
     playerBlack->addPiece(new Rook(board.getChessSquare(7, 0), true));
-
-    //uncomment when pawn is complete
-    /*playerBlack->addPiece(new Pawn(board.getChessSquare(0, 1), true));
+    
+    playerBlack->addPiece(new Pawn(board.getChessSquare(0, 1), true));
     playerBlack->addPiece(new Pawn(board.getChessSquare(1, 1), true));
     playerBlack->addPiece(new Pawn(board.getChessSquare(2, 1), true));
     playerBlack->addPiece(new Pawn(board.getChessSquare(3, 1), true));
     playerBlack->addPiece(new Pawn(board.getChessSquare(4, 1), true));
     playerBlack->addPiece(new Pawn(board.getChessSquare(5, 1), true));
     playerBlack->addPiece(new Pawn(board.getChessSquare(6, 1), true));
-    playerBlack->addPiece(new Pawn(board.getChessSquare(7, 1), true)); */
+    playerBlack->addPiece(new Pawn(board.getChessSquare(7, 1), true));
+
 
     playerWhite->addPiece(new Rook(board.getChessSquare(0, 7), false));
     playerWhite->addPiece(new Knight(board.getChessSquare(1, 7), false));
@@ -41,15 +45,14 @@ Game::Game(Player *playerWhite, Player *playerBlack) {
     playerWhite->addPiece(new Knight(board.getChessSquare(6, 7), false));
     playerWhite->addPiece(new Rook(board.getChessSquare(7, 7), false));
 
-    //uncomment when pawn is complete
-    /*playerWhite->addPiece(new Pawn(board.getChessSquare(0, 6), false));
+    playerWhite->addPiece(new Pawn(board.getChessSquare(0, 6), false));
     playerWhite->addPiece(new Pawn(board.getChessSquare(1, 6), false));
     playerWhite->addPiece(new Pawn(board.getChessSquare(2, 6), false));
     playerWhite->addPiece(new Pawn(board.getChessSquare(3, 6), false));
     playerWhite->addPiece(new Pawn(board.getChessSquare(4, 6), false));
     playerWhite->addPiece(new Pawn(board.getChessSquare(5, 6), false));
     playerWhite->addPiece(new Pawn(board.getChessSquare(6, 6), false));
-    playerWhite->addPiece(new Pawn(board.getChessSquare(7, 6), false)); */
+    playerWhite->addPiece(new Pawn(board.getChessSquare(7, 6), false));
 }
 
 // Handles game logic when a click occurs to select and move pieces
@@ -117,4 +120,14 @@ void Game::handleClick(sf::RenderWindow& window) {
 // Returns board
 Board* Game::getBoard() {
     return &board;
+}
+
+// returns player
+
+Player* Game::getPlayer(int color) {
+    if(color == 0) {
+        return playerBlack;
+    } else {
+        return playerWhite;
+    }
 }
