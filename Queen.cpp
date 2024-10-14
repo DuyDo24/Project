@@ -66,8 +66,11 @@ std::vector<Square*> Queen::getValidMoves(Square squares[8][8]) const {
                 // Check if first square is outside board
                 if (currentPosition.x < 0 || currentPosition.x > 7 || currentPosition.y < 0 || currentPosition.y > 7) {
                     outsideBoard = true;
-                } if (squares[(int) currentPosition.x][(int) currentPosition.y].getPiece() != nullptr) { // Check if first square is occupied
+                } else if (squares[(int) currentPosition.x][(int) currentPosition.y].getPiece() != nullptr) { // Check if first square is occupied
                     blocked = true;
+                    if (squares[(int) currentPosition.x][(int) currentPosition.y].getPiece()->getColor() != color) { // Adds square if occupied by enemy piece
+                        validMoves.push_back(&squares[(int) currentPosition.x][(int) currentPosition.y]);
+                    }
                 }
 
                 // Loop to go through each square of the line
@@ -82,8 +85,10 @@ std::vector<Square*> Queen::getValidMoves(Square squares[8][8]) const {
                     if (newPosition.x < 0 || newPosition.x > 7 || newPosition.y < 0 || newPosition.y > 7) {
                         outsideBoard = true;
                     } else if (squares[(int) newPosition.x][(int) newPosition.y].getPiece() != nullptr) { // Check if next square is occupied
-                        // Check for friendly/enemy piece needs to be added
                         blocked = true;
+                        if (squares[(int) newPosition.x][(int) newPosition.y].getPiece()->getColor() != color) { // Adds square if occupied by enemy piece
+                            validMoves.push_back(&squares[(int) newPosition.x][(int) newPosition.y]);
+                        }
                     }
 
                     currentPosition = newPosition;
