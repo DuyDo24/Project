@@ -11,7 +11,7 @@ Player::Player(int color) {
     }
 }
 
-void Player::generateCards(std::vector<Piece*> pieces, sf::Font &font) {
+void Player::generateCards(sf::Font &font) {
     int visSize = pieces.size(); //finding size of entire pieces
     std::vector<Piece*> availPieces;
     int availSize;

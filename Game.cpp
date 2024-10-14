@@ -1,9 +1,55 @@
 #include "Game.h"
 #include <algorithm>
+#include "Piece.h"
+#include "Rook.h"
+#include "Knight.h"
+#include "Bishop.h"
+#include "Queen.h"
+#include "King.h"
+#include "Pawn.h"
+#include <iostream>
 
 // Creates a default state game (starting position)
-Game::Game() {
+Game::Game(Player *playerWhite, Player *playerBlack) {
     gamePhase = 0;
+
+    playerBlack->addPiece(new Rook(board.getChessSquare(0, 0), true));
+    playerBlack->addPiece(new Knight(board.getChessSquare(1, 0), true));
+    playerBlack->addPiece(new Bishop(board.getChessSquare(2, 0), true));
+    playerBlack->addPiece(new Queen(board.getChessSquare(3, 0), true));
+    playerBlack->addPiece(new King(board.getChessSquare(4, 0), true));
+    playerBlack->addPiece(new Bishop(board.getChessSquare(5, 0), true));
+    playerBlack->addPiece(new Knight(board.getChessSquare(6, 0), true));
+    playerBlack->addPiece(new Rook(board.getChessSquare(7, 0), true));
+
+    //uncomment when pawn is complete
+    /*playerBlack->addPiece(new Pawn(board.getChessSquare(0, 1), true));
+    playerBlack->addPiece(new Pawn(board.getChessSquare(1, 1), true));
+    playerBlack->addPiece(new Pawn(board.getChessSquare(2, 1), true));
+    playerBlack->addPiece(new Pawn(board.getChessSquare(3, 1), true));
+    playerBlack->addPiece(new Pawn(board.getChessSquare(4, 1), true));
+    playerBlack->addPiece(new Pawn(board.getChessSquare(5, 1), true));
+    playerBlack->addPiece(new Pawn(board.getChessSquare(6, 1), true));
+    playerBlack->addPiece(new Pawn(board.getChessSquare(7, 1), true)); */
+
+    playerWhite->addPiece(new Rook(board.getChessSquare(0, 7), false));
+    playerWhite->addPiece(new Knight(board.getChessSquare(1, 7), false));
+    playerWhite->addPiece(new Bishop(board.getChessSquare(2, 7), false));
+    playerWhite->addPiece(new Queen(board.getChessSquare(3, 7), false));
+    playerWhite->addPiece(new King(board.getChessSquare(4, 7), false));
+    playerWhite->addPiece(new Bishop(board.getChessSquare(5, 7), false));
+    playerWhite->addPiece(new Knight(board.getChessSquare(6, 7), false));
+    playerWhite->addPiece(new Rook(board.getChessSquare(7, 7), false));
+
+    //uncomment when pawn is complete
+    /*playerWhite->addPiece(new Pawn(board.getChessSquare(0, 6), false));
+    playerWhite->addPiece(new Pawn(board.getChessSquare(1, 6), false));
+    playerWhite->addPiece(new Pawn(board.getChessSquare(2, 6), false));
+    playerWhite->addPiece(new Pawn(board.getChessSquare(3, 6), false));
+    playerWhite->addPiece(new Pawn(board.getChessSquare(4, 6), false));
+    playerWhite->addPiece(new Pawn(board.getChessSquare(5, 6), false));
+    playerWhite->addPiece(new Pawn(board.getChessSquare(6, 6), false));
+    playerWhite->addPiece(new Pawn(board.getChessSquare(7, 6), false)); */
 }
 
 // Handles game logic when a click occurs to select and move pieces

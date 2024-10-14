@@ -14,7 +14,10 @@ int main()
 {
     sf::RenderWindow window(sf::VideoMode(600, 600), "SFML works!");
 
-    Game game;
+    Player playerBlack(0);
+    Player playerWhite(1);
+
+    Game game(&playerWhite,&playerBlack);
 
     sf::Font font;
     font.loadFromFile("arial.ttf");
@@ -28,18 +31,17 @@ int main()
     // Pawn pawn4(board->getChessSquare(4, 1), false);
     // Works
 
-    Knight n1(board->getChessSquare(3,1), true);
+    //Knight n1(board->getChessSquare(3,1), true);
 
-    Bishop b1(board->getChessSquare(1,1), true);
+    //Bishop b1(board->getChessSquare(1,1), true);
 
-    King k1(board->getChessSquare(2,1), true);
+    //King k1(board->getChessSquare(2,1), true);
 
-    Queen q1(board->getChessSquare(4,1), true);
+    //Queen q1(board->getChessSquare(4,1), true);
     
-    Rook r1(board->getChessSquare(5,1), true);
-    
-    Player player1(0);
-    player1.generateCards(k1.blackPieces, font);
+    //Rook r1(board->getChessSquare(5,1), true);
+
+    playerWhite.generateCards(font);
     //Square s1;
 
     // sf::RectangleShape square;
@@ -92,7 +94,7 @@ int main()
         // s1.draw(pos, window);
 
         //window.draw(square);
-        player1.drawCards(window);
+        playerWhite.drawCards(window);
         board->drawBoard(window);
         
         // pawn.draw(window);

@@ -2,6 +2,7 @@
 #define CLASS_H
 
 #include "Board.h"
+#include "Player.h"
 
 class Game {
     private:
@@ -16,7 +17,7 @@ class Game {
         Square* destination;
     public:
         // Creates a default state game (starting position)
-        Game();
+        Game(Player *playerWhite, Player *playerBlack);
         // Returns board
         Board* getBoard();
         // Handles game logic when a click occurs to select and move pieces
