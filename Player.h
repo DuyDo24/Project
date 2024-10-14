@@ -15,7 +15,7 @@ class Player {
     public:
         Player(int color);
         void drawCards(sf::RenderWindow& window);
-        void generateCards(std::vector<Piece*> pieces);
+        void generateCards(std::vector<Piece*> pieces, sf::Font);
         void capturePiece(Piece *piece);
         void removePiece(Piece *piece);
         void addPiece(Piece *piece);

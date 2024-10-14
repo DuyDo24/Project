@@ -17,7 +17,7 @@ class Card {
     public:
         Card();
         Card(Piece *piece, const sf::Font& font, int pos); // Constructor to create a card with a piece
-        void draw(sf::RenderWindow& window) const; // Method to draw the card
+        void draw(sf::RenderWindow& window); // Method to draw the card
         Piece* getPiece() const; // Method to get the associated piece
         int getColor();
         ~Card();

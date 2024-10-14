@@ -11,6 +11,9 @@ int main()
     sf::RenderWindow window(sf::VideoMode(600, 600), "SFML works!");
 
     Game game;
+
+    sf::Font font;
+    font.loadFromFile("arial.ttf");
     
     Board* board = game.getBoard();
 
@@ -25,7 +28,7 @@ int main()
     Knight k2(board->getChessSquare(3,3), false);
     Knight k3(board->getChessSquare(2,2), false);
     Player player1(0);
-    player1.generateCards(k3.whitePieces);
+    player1.generateCards(k3.whitePieces, font);
 
     //Square s1;
 
