@@ -8,6 +8,9 @@
 #include "King.h"
 #include "Pawn.h"
 #include <iostream>
+#include <fstream>
+#include <string>
+#include <iostream>
 
 // Creates a default state game (starting position)
 Game::Game() {
@@ -55,6 +58,133 @@ Game::Game() {
     players[1]->addPiece(new Pawn(board.getChessSquare(7, 6), false));
 
     playerTurn = 1;
+
+    sf::Font font;
+    font.loadFromFile("calligraphy.ttf");
+    getPlayer(1)->generateCards(font);
+}
+
+// Create game from saved game state
+Game::Game(bool saved) {
+    gamePhase = 0;
+
+    players.push_back(new Player(0));
+    players.push_back(new Player(1));
+
+    std::ifstream saveFile;
+    saveFile.open("save.txt");
+
+    if (!saveFile) {
+        saveFile.open("default_save.txt");
+    }
+
+    for (int x = 0; x < 8; x++) {
+        for (int y = 0; y < 8; y++) {
+            char pieceChar;
+            if (saveFile.get(pieceChar)) {
+                switch (pieceChar) {
+                    case 'k':
+                        players[0]->addPiece(new King(board.getChessSquare(x, y), true));
+                        break;
+                    case 'K':
+                        players[1]->addPiece(new King(board.getChessSquare(x, y), false));
+                        break;
+                    case 'q':
+                        players[0]->addPiece(new Queen(board.getChessSquare(x, y), true));
+                        break;
+                    case 'Q':
+                        players[1]->addPiece(new Queen(board.getChessSquare(x, y), false));
+                        break;
+                    case 'r':
+                        players[0]->addPiece(new Rook(board.getChessSquare(x, y), true));
+                        break;
+                    case 'R':
+                        players[1]->addPiece(new Rook(board.getChessSquare(x, y), false));
+                        break;
+                    case 'n':
+                        players[0]->addPiece(new Knight(board.getChessSquare(x, y), true));
+                        break;
+                    case 'N':
+                        players[1]->addPiece(new Knight(board.getChessSquare(x, y), false));
+                        break;
+                    case 'b':
+                        players[0]->addPiece(new Bishop(board.getChessSquare(x, y), true));
+                        break;
+                    case 'B':
+                        players[1]->addPiece(new Bishop(board.getChessSquare(x, y), false));
+                        break;
+                    case 'p':
+                        players[0]->addPiece(new Pawn(board.getChessSquare(x, y), true));
+                        break;
+                    case 'P':
+                        players[1]->addPiece(new Pawn(board.getChessSquare(x, y), false));
+                        break;
+                }
+            }
+        }
+    }
+    char turnChar;
+    saveFile.get(turnChar);
+    std::string turnString;
+    turnString.append(1, turnChar);
+    playerTurn = stoi(turnString);
+    
+    // generate player cards
+    // sf::Font font;
+    // font.loadFromFile("calligraphy.ttf");
+    // getPlayer(playerTurn)->generateCards(font);
+
+    saveFile.close();
+}
+
+// Saves game state
+void Game::saveGame() {
+    std::ofstream saveFile("save.txt"); // create save file
+    std::string saveData; // create save data string
+
+    for (int x = 0; x < 8; x++) {
+        for (int y = 0; y < 8; y++) {
+            // loop through each square of board
+            Square* currentSquare = board.getChessSquare(x, y);
+            Piece* currentPiece = nullptr;
+            std::string pieceName = "";
+            int pieceColor = -1;
+            // if piece exists, get name and color
+            if (currentSquare->getPiece() != nullptr) {
+                currentPiece = currentSquare->getPiece();
+                pieceName = currentPiece->getName();
+                pieceColor = currentPiece->getColor();
+            }
+            // append character to save data based on type and color
+            // uppercase = white, lowercase = black, letter based on piece
+            // if no piece write 0
+            char pieceChar;
+            if (pieceName == "King") {
+                pieceChar = 'k';
+            } else if (pieceName == "Queen") {
+                pieceChar = 'q';
+            } else if (pieceName == "Rook") {
+                pieceChar = 'r';
+            } else if (pieceName == "Knight") {
+                pieceChar = 'n';
+            } else if (pieceName == "Bishop") {
+                pieceChar = 'b';
+            } else if (pieceName == "Pawn") {
+                pieceChar = 'p';
+            } else {
+                pieceChar = '0';
+            }
+
+            if (pieceColor == 1) {
+                pieceChar = toupper(pieceChar);
+            }
+            saveData.append(1, pieceChar);
+        }
+    }
+    saveData.append(std::to_string(playerTurn)); // append player turn
+
+    saveFile << saveData;
+    saveFile.close();
 }
 
 // Handles game logic when a click occurs to select and move pieces

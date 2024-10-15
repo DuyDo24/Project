@@ -73,7 +73,8 @@ int main()
 
     Player playerBlack(0);
     Player playerWhite(1);
-    Game game;
+    Game game(true);
+    // testing saving
     Board* board = game.getBoard();
     game.getPlayer(1)->generateCards(font);
 
@@ -82,6 +83,7 @@ int main()
         sf::Event event;
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
+                game.saveGame();
                 window.close();
             }
 
