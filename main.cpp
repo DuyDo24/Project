@@ -71,8 +71,6 @@ int main()
 
     GameState gameState = GameState::MENU;  // Start with menu state
 
-    Player playerBlack(0);
-    Player playerWhite(1);
     Game game;
     Board* board = game.getBoard();
     game.getPlayer(1)->generateCards(font);
