@@ -14,8 +14,6 @@ class Game {
         int gamePhase;
         int playerTurn; //0 for black, 1 for white
 
-        bool newTurn = false; //checking if new cards need to be generated
-
         std::vector<Player*> players;
 
         // Pointers to squares used in handleClick function
@@ -26,8 +24,9 @@ class Game {
     public:
         // Creates a default state game (starting position)
         Game();
+        Game(sf::Font &font);
         // Creates a game from saved game state
-        Game(bool saved);
+        Game(sf::Font &font, bool saved);
         // Writes game state to file
         void saveGame();
 
@@ -36,6 +35,9 @@ class Game {
         Player* getPlayer(int color);
 
         int getPlayerTurn();
+        void switchTurn();
+        void setGamePhase(int phase);
+
         
         // Handles game logic when a click occurs to select and move pieces
         void handleClick(sf::RenderWindow& window, sf::Font& font);
