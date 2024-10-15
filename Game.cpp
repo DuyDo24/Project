@@ -16,6 +16,7 @@ Game::Game() { }
 // Creates a default state game (starting position)
 Game::Game(sf::Font &font) {
     gamePhase = 0;
+    gameOver = false;
 
     players.push_back(new Player(0));
     players.push_back(new Player(1));
@@ -195,6 +196,9 @@ void Game::saveGame() {
 
 // Handles game logic when a click occurs to select and move pieces
 void Game::handleClick(sf::RenderWindow& window, sf::Font& font) {
+    if (gameOver) { // If the game is already over, do nothing
+        return;
+    }
     if(gamePhase == 0) { // Selecting card
         clickedCard = players[playerTurn]->getClickedCard(window);
         if (clickedCard == nullptr) { // if no card clicked
@@ -290,6 +294,11 @@ void Game::handleClick(sf::RenderWindow& window, sf::Font& font) {
                 } else {
                     opp = 0;
                 }
+                Piece* capturedPiece = destination->getPiece();
+                if (dynamic_cast<King*>(capturedPiece) != nullptr) {
+                    gameOver = true;
+                    return;
+                    } 
                 players[playerTurn]->capturePiece(destination->getPiece(), players[opp]);
             }
 
@@ -341,4 +350,11 @@ Game::~Game() {
     for(int i=0;i<2;i++) {
         delete players[i];
     }
+}
+int Game::getGamePhase(){
+    return gamePhase;
+}
+
+bool Game::isGameOver() const {
+    return gameOver;
 }
