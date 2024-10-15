@@ -70,18 +70,20 @@ std::vector<Square*> Pawn::getValidMoves(Square squares[8][8]) const {
     sf::Vector2f end = start + sf::Vector2f(0, direction);
     Square* forwardSquare = &squares[(int) end.x][(int) end.y];
 
+    bool onStartingSquare = (color == 1 && start.y == 6) || (color == 0 && start.y == 1);
+
     if (forwardSquare->getPiece() == nullptr) {
         validMoves.push_back(forwardSquare);
 
-        // Two squares forward (only on first move)
-        if (!hasMoved) {
-            end = start + sf::Vector2f(0, 2 * direction);
-            forwardSquare = &squares[(int) end.x][(int) end.y];
-            if (forwardSquare->getPiece() == nullptr) {
-                validMoves.push_back(forwardSquare);
-            }
+        // Two squares forward (only if the pawn is on its starting row)
+    if (onStartingSquare) {
+        end = start + sf::Vector2f(0, 2 * direction);
+        forwardSquare = &squares[(int) end.x][(int) end.y];
+        if (forwardSquare->getPiece() == nullptr) {
+            validMoves.push_back(forwardSquare);
         }
     }
+}
 
     // Diagonal captures
     for (int dx = -1; dx <= 1; dx += 2) {  // Check both diagonals
