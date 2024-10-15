@@ -21,7 +21,7 @@ enum class GameState {
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(400, 600), "Card Chess");
+    sf::RenderWindow window(sf::VideoMode(400, 650), "Card Chess");
 
     // Load header PNG image
     sf::Texture headerTexture;
@@ -128,30 +128,29 @@ int main()
 
     GameState gameState = GameState::MENU;  // Start with menu state
 
-    Player playerBlack(0);
-    Player playerWhite(1);
-    Game game(font, true);
-    Board* board = game.getBoard();
-    game.getPlayer(1)->generateCards(font);
-
+    Game *game;
+    Board* board = game->getBoard();
 
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed) {
-                window.close();
-            }
             if (gameState == GameState::MENU) {
                 // Handle menu interaction
                 if (event.type == sf::Event::MouseButtonPressed) {
                     sf::Vector2i mousePos = sf::Mouse::getPosition(window);
                     if (newGameText.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+                        game = new Game(font);
+                        board = game->getBoard();
                         gameState = GameState::NEW_GAME;
                     } else if (resumeGameText.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+                        game = new Game(font, true);
+                        board = game->getBoard();
                         gameState = GameState::RESUME_GAME;
                     } else if (InfoRect.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
                         gameState = GameState::INFO_PAGE;
                     }
+                } else if (event.type == sf::Event::Closed) {
+                    window.close();
                 }
             } else if (gameState == GameState::INFO_PAGE) {
                 // Handle back to menu interaction
@@ -160,27 +159,33 @@ int main()
                     if (backButtonRect.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
                         gameState = GameState::MENU;
                     }
+                } else if (event.type == sf::Event::Closed) {
+                    window.close();
                 }
+
             } else if (gameState == GameState::NEW_GAME || gameState == GameState::RESUME_GAME) {
                 // Handle game interaction (existing logic)
                 if (event.type == sf::Event::MouseButtonPressed) {
-                    game.handleClick(window,font);  // Handle the game click
-                if (game.getGamePhase() == 0) {
+                    game->handleClick(window,font);  // Handle the game click
+                if (game->getGamePhase() == 0) {
                         instructions.setString("Select card");
-                    } else if (game.getGamePhase() == 1) {
+                    } else if (game->getGamePhase() == 1) {
                         instructions.setString("Select piece");
-                    } else if (game.getGamePhase() == 2) {
+                    } else if (game->getGamePhase() == 2) {
                         instructions.setString("Select move");
                     }
-                if (game.isGameOver()) {
+                if (game->isGameOver()) {
                         gameState = GameState::GAME_OVER;
-                        if (game.getPlayerTurn() == 0) {
+                        if (game->getPlayerTurn() == 0) {
                             gameOverText.setString("Black Wins!");
                         } else {
                             gameOverText.setString("White Wins!");
                         }
                     }
-                }
+                } else if (event.type == sf::Event::Closed) {
+                        game->saveGame();
+                        window.close();
+                    }
             }
         }
 
@@ -201,7 +206,7 @@ int main()
             
         } else if (gameState == GameState::NEW_GAME || gameState == GameState::RESUME_GAME) {
             // Draw game
-            game.getPlayer(game.getPlayerTurn())->drawCards(window);
+            game->getPlayer(game->getPlayerTurn())->drawCards(window);
             board->drawBoard(window);
             window.draw(instructions);
         } else if (gameState == GameState::INFO_PAGE) {
