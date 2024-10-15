@@ -42,13 +42,20 @@ bool Pawn::isValidMove(const sf::Vector2f& end) const {
 
     // Determine direction based on team color
     int direction;
-    if (color == 1) {direction = -1;} 
-    else {direction = 1;}
+    int startRow;
+    if (color == 1) {direction = -1; startRow = 6;} 
+    else {direction = 1; startRow = 1;}
 
     // Valid moves are any move that is 1 square in y direction (depends on team) either straight or diagonal
     // Diagonal moves are only valid when square is occupied, however this check is done in getValidMoves()
     if ((dx == 1 || dx == 0) && dy == direction) {
         return true;
+    }
+    // Double move is valid if pawn is on starting square
+    if (dx == 0 && start.y == startRow) {
+        if (std::abs(dy) == 2) {
+            return true;
+        }
     }
     return false;
 }
@@ -74,8 +81,14 @@ std::vector<Square*> Pawn::getValidMoves(Square squares[8][8]) const {
                 } else { // if straight ahead
                     if (endSquare->getPiece() == nullptr) { // push if unoccupied
                         validMoves.push_back(endSquare);
+                        // check square past forward square
+                        if (isValidMove(sf::Vector2f(end.x, end.y + y))) {
+                            if (squares[(int) end.x][(int) end.y + y].getPiece() == nullptr) { // push if unoccupied
+                                validMoves.push_back(&squares[(int) end.x][(int) end.y + y]);
+                            }
+                        }
                     }
-                    
+                    // if piece on starting square 
                 }
             }
         }

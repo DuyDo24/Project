@@ -10,98 +10,119 @@
 #include "Player.h"
 #include "Card.h"
 
+enum class GameState {
+    MENU,
+    NEW_GAME,
+    RESUME_GAME,
+    IN_GAME
+};
+
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(600, 600), "SFML works!");
+    sf::RenderWindow window(sf::VideoMode(400, 600), "Card Chess");
 
-    Game game;
+    // Load header PNG image
+    sf::Texture headerTexture;
+    if (!headerTexture.loadFromFile("textures/Card_Chess.png")) {
+        return -1;
+    }
 
+    // Create a sprite for the header
+    sf::Sprite headerSprite;
+    headerSprite.setTexture(headerTexture);
+
+    // Scale or resize the header image to fit the window if needed (optional)
+    headerSprite.setPosition(0, 0);  // Position the header at the top of the window (adjust for centering)
+
+    // Load font for menu and other text
     sf::Font font;
-    font.loadFromFile("arial.ttf");
-    
+    if (!font.loadFromFile("Bold & Stylish Calligraphy.ttf")) {
+        return -1;
+    }
+
+    // Create menu items
+    sf::Text newGameText;
+    newGameText.setFont(font);
+    newGameText.setString("New Game");
+    newGameText.setCharacterSize(40); 
+    newGameText.setFillColor(sf::Color::Black);
+    newGameText.setPosition(100, 300);  
+
+    sf::Text resumeGameText;
+    resumeGameText.setFont(font);
+    resumeGameText.setString("Resume Game");
+    resumeGameText.setCharacterSize(40);  
+    resumeGameText.setFillColor(sf::Color::Black);
+    resumeGameText.setPosition(70, 400); 
+
+    sf::RectangleShape newGameRect;
+    newGameRect.setSize(sf::Vector2f(240, 60));  
+    newGameRect.setFillColor(sf::Color(211,211,211)); 
+    newGameRect.setOutlineColor(sf::Color::Black);  
+    newGameRect.setOutlineThickness(5); 
+    newGameRect.setPosition(80, 300); 
+
+    sf::RectangleShape resumeGameRect;
+    resumeGameRect.setSize(sf::Vector2f(300, 60));  
+    resumeGameRect.setFillColor(sf::Color(211,211,211));  
+    resumeGameRect.setOutlineColor(sf::Color::Black);  
+    resumeGameRect.setOutlineThickness(5);  
+    resumeGameRect.setPosition(50, 400);  
+
+    GameState gameState = GameState::MENU;  // Start with menu state
+
+    Player playerBlack(0);
+    Player playerWhite(1);
+    Game game;
     Board* board = game.getBoard();
-
-    // Testing adding pieces to board
-    //Pawn pawn(board->getChessSquare(1, 6), true);
-    //Pawn pawn2(board->getChessSquare(2, 6), false);
-    //Pawn pawn3(board->getChessSquare(3, 6), true);
-    //Pawn pawn4(board->getChessSquare(4, 6), false);
-    // Works
-
-    //Knight n1(board->getChessSquare(3,1), true);
-
-    //Bishop b1(board->getChessSquare(1,1), true);
-
-    //King k1(board->getChessSquare(2,1), true);
-
-    //Queen q1(board->getChessSquare(4,1), true);
-    
-    //Rook r1(board->getChessSquare(5,1), true);
-
-    //Square s1;
-
-    // sf::RectangleShape square;
-    // square.setFillColor(sf::Color::White);
-    // square.setSize(sf::Vector2f(100,100));
-    // square.setPosition(sf::Vector2f(100,100));
-
     game.getPlayer(1)->generateCards(font);
 
-    while (window.isOpen())
-    {
+
+    while (window.isOpen()) {
         sf::Event event;
-        while (window.pollEvent(event))
-        {
+        while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
                 window.close();
             }
 
-            if (event.type == sf::Event::KeyPressed) {
-                if (event.key.code == sf::Keyboard::A) {
-                    board->movePiece(board->getChessSquare(1,1), board->getChessSquare(1,2));
-                } else {
-                    board->movePiece(board->getChessSquare(1,2), board->getChessSquare(1,1));
+            if (gameState == GameState::MENU) {
+                // Handle menu interaction
+                if (event.type == sf::Event::MouseButtonPressed) {
+                    sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+                    if (newGameText.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+                        gameState = GameState::NEW_GAME;
+                    } else if (resumeGameText.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+                        gameState = GameState::RESUME_GAME;
+                    }
                 }
-            }
-
-            if (event.type == sf::Event::MouseButtonPressed) {
-                // Testing square click detection
-                // if (board.getChessSquare(1,1)->checkClicked(window)) {
-                //     board.movePiece(board.getChessSquare(1,1), board.getChessSquare(1,2));
-                //     }
-                // Works
-
-                // Testing board.getClickedSquare()
-                // board.movePiece(board.getClickedSquare(window), board.getChessSquare(4,4));
-                // Works
-
-                // Testing board getClickedSquare + two-step moving (choosing piece and target)
-                game.handleClick(window, font);
-                // Works
-
-                // Testing square highlighting
-                // board->getClickedSquare(window)->setHighlight(true);
-                // Works
+            } else if (gameState == GameState::NEW_GAME || gameState == GameState::RESUME_GAME) {
+                // Handle game interaction (existing logic)
+                if (event.type == sf::Event::MouseButtonPressed) {
+                    game.handleClick(window,font);  // Handle the game click
+                }
             }
         }
 
-        window.clear(sf::Color(135, 206, 250));
+        window.clear(sf::Color(232,220,202));  // Background color
 
-        // sf::Vector2f pos(100,100);
-        // s1.setColor(sf::Color::White);
-        // s1.draw(pos, window);
+        if (gameState == GameState::MENU) {
+            // Draw header image (Card Chess PNG)
+            window.draw(headerSprite);
 
-        //window.draw(square);
-        game.getPlayer(game.getPlayerTurn())->drawCards(window);
-        board->drawBoard(window);
-        
-        // pawn.draw(window);
-        // pawn2.draw(window);
-        // pawn3.draw(window);
-        // pawn4.draw(window);
+            // Draw menu
+            window.draw(newGameRect);
+            window.draw(resumeGameRect);
+            window.draw(newGameText);
+            window.draw(resumeGameText);
+            
+        } else if (gameState == GameState::NEW_GAME || gameState == GameState::RESUME_GAME) {
+            // Draw game
+            game.getPlayer(game.getPlayerTurn())->drawCards(window);
+            board->drawBoard(window);
+        }
 
         window.display();
-        
     }
+
     return 0;
 }

@@ -19,7 +19,7 @@ Card::Card(Piece *pPiece, const sf::Font& font, int pos) {
         cardColor = sf::Color::Black;
         cardShape.setFillColor(sf::Color::Black); //if piece is white, black background
     }
-    cardShape.setPosition(10+(pos*110),410); //setting position below board, x value depending on position (order) of card
+    cardShape.setPosition(40+(pos*110),410); //setting position below board, x value depending on position (order) of card
 
     // Set up card text
     cardText.setFont(font);
