@@ -26,6 +26,11 @@ class Game {
     public:
         // Creates a default state game (starting position)
         Game();
+        // Creates a game from saved game state
+        Game(bool saved);
+        // Writes game state to file
+        void saveGame();
+
         // Returns board
         Board* getBoard();
         Player* getPlayer(int color);

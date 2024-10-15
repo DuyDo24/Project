@@ -71,7 +71,10 @@ int main()
 
     GameState gameState = GameState::MENU;  // Start with menu state
 
-    Game game;
+    Player playerBlack(0);
+    Player playerWhite(1);
+    Game game(true);
+    // testing saving
     Board* board = game.getBoard();
     game.getPlayer(1)->generateCards(font);
 
@@ -80,6 +83,7 @@ int main()
         sf::Event event;
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
+                game.saveGame();
                 window.close();
             }
 
