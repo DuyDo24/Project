@@ -36,7 +36,7 @@ int main()
 
     // Load font for menu and other text
     sf::Font font;
-    if (!font.loadFromFile("Bold & Stylish Calligraphy.ttf")) {
+    if (!font.loadFromFile("calligraphy.ttf")) {
         return -1;
     }
 
