@@ -66,22 +66,28 @@ Game::Game() {
 
 // Create game from saved game state
 Game::Game(bool saved) {
+    // Set game phase
     gamePhase = 0;
 
+    // Create players
     players.push_back(new Player(0));
     players.push_back(new Player(1));
 
+    // Open save file
     std::ifstream saveFile;
     saveFile.open("save.txt");
 
+    // Use default save if a save file does not exist
     if (!saveFile) {
         saveFile.open("default_save.txt");
     }
 
+    // Loop once for each square
     for (int x = 0; x < 8; x++) {
         for (int y = 0; y < 8; y++) {
             char pieceChar;
-            if (saveFile.get(pieceChar)) {
+            if (saveFile.get(pieceChar)) { // Get next character in save string
+                // Create new piece based on character in string, on square based on loop iterations
                 switch (pieceChar) {
                     case 'k':
                         players[0]->addPiece(new King(board.getChessSquare(x, y), true));
@@ -123,6 +129,7 @@ Game::Game(bool saved) {
             }
         }
     }
+    // Set player turn (last character of save string)
     char turnChar;
     saveFile.get(turnChar);
     std::string turnString;
@@ -134,6 +141,7 @@ Game::Game(bool saved) {
     // font.loadFromFile("calligraphy.ttf");
     // getPlayer(playerTurn)->generateCards(font);
 
+    // close save file
     saveFile.close();
 }
 
