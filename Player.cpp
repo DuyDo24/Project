@@ -1,6 +1,7 @@
 #include "Player.h"
 #include <random>
 #include <iostream>
+#include<cstdlib>
 #include <vector>
 #include "Card.h"
 
@@ -38,13 +39,38 @@ void Player::generateCards(sf::Font &font) {
         }
     }
     
+    srand((unsigned) time(NULL));
+
     int num;
-    
-    for(int i=0;i<3;i++) {
+    int iter;
+    found = false;
+    if(size >= 3) {
+        iter = 3;
+    } else {
+        iter = size;
+    }
+    int stored[iter];
+
+    for(int i=0;i<iter;i++) {
         if (hand[i] != nullptr) {
             delete hand[i];  // Free the old Card objects to avoid memory leaks
         }
         num = rand() % size; //generating a random card from available cards
+        while(true) {
+            found = false;
+            for(int j=0;j<3;j++) {
+                if(num == stored[j]) {
+                    num = rand() % size;
+                    found = true;
+                    //std::cout << "james" << std::endl;
+                }
+            }
+            if(!found) {
+                break;
+            }
+        }
+
+        stored[i] = num;
         //std::cout << num << std::endl;
         hand[i] = new Card(availPieces[num], font, i);
     }

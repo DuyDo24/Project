@@ -69,6 +69,7 @@ std::vector<Square*> Pawn::getValidMoves(Square squares[8][8]) const {
     // Single square forward
     sf::Vector2f end = start + sf::Vector2f(0, direction);
     Square* forwardSquare = &squares[(int) end.x][(int) end.y];
+
     if (forwardSquare->getPiece() == nullptr) {
         validMoves.push_back(forwardSquare);
 

@@ -67,7 +67,7 @@ void Game::handleClick(sf::RenderWindow& window, sf::Font& font) {
         clickedCard->setHighlight(true);
         gamePhase = 1;
         std::vector<Square*> validSquares = players[playerTurn]->getValidPieceSquares(clickedCard->getPiece()); //find valid squares with valid pieces
-        std::cout << validSquares[0] << std::endl;
+        //std::cout << validSquares[0] << std::endl;
         validSquares[0]->setHighlight(true);
         for (int i = 0; i < validSquares.size(); i++) {
             validSquares[i]->setHighlight(true);
