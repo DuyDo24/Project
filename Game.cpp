@@ -12,8 +12,9 @@
 #include <string>
 #include <iostream>
 
+Game::Game() { }
 // Creates a default state game (starting position)
-Game::Game() {
+Game::Game(sf::Font &font) {
     gamePhase = 0;
 
     players.push_back(new Player(0));
@@ -59,13 +60,12 @@ Game::Game() {
 
     playerTurn = 1;
 
-    sf::Font font;
     font.loadFromFile("calligraphy.ttf");
-    getPlayer(1)->generateCards(font);
+    players[1]->generateCards(font);
 }
 
 // Create game from saved game state
-Game::Game(bool saved) {
+Game::Game(sf::Font &font, bool saved) {
     // Set game phase
     gamePhase = 0;
 
@@ -136,10 +136,8 @@ Game::Game(bool saved) {
     turnString.append(1, turnChar);
     playerTurn = stoi(turnString);
     
-    // generate player cards
-    // sf::Font font;
-    // font.loadFromFile("calligraphy.ttf");
-    // getPlayer(playerTurn)->generateCards(font);
+
+    players[playerTurn]->generateCards(font);
 
     // close save file
     saveFile.close();
@@ -298,12 +296,7 @@ void Game::handleClick(sf::RenderWindow& window, sf::Font& font) {
             board.movePiece(origin, destination);
             // Change game phase
             gamePhase = 0;
-            newTurn = true;
-            if(playerTurn == 0) {
-                playerTurn = 1;
-            } else{
-                playerTurn = 0;
-            }
+            switchTurn();
             players[playerTurn]->generateCards(font);
             // Reset origin and destination pointers
             origin = nullptr;
@@ -329,6 +322,19 @@ Player* Game::getPlayer(int color) {
 
 int Game::getPlayerTurn() {
     return playerTurn;
+}
+
+void Game::switchTurn() {
+    if(playerTurn == 0) {
+        playerTurn = 1;
+    } else {
+        playerTurn = 0;
+    }
+}
+
+
+void Game::setGamePhase(int phase) {
+    gamePhase = phase;
 }
 
 Game::~Game() {

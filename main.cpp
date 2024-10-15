@@ -69,11 +69,12 @@ int main()
     resumeGameRect.setOutlineThickness(5);  
     resumeGameRect.setPosition(50, 400);  
 
+    
+
+
     GameState gameState = GameState::MENU;  // Start with menu state
 
-    Player playerBlack(0);
-    Player playerWhite(1);
-    Game game(true);
+    Game game(font, true);
     // testing saving
     Board* board = game.getBoard();
     game.getPlayer(1)->generateCards(font);
