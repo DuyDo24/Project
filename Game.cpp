@@ -59,7 +59,7 @@ Game::Game() {
 
 // Handles game logic when a click occurs to select and move pieces
 void Game::handleClick(sf::RenderWindow& window, sf::Font& font) {
-    if(gamePhase == 0) {
+    if(gamePhase == 0) { // Selecting card
         clickedCard = players[playerTurn]->getClickedCard(window);
         if (clickedCard == nullptr) { // if no card clicked
             return;
@@ -69,10 +69,11 @@ void Game::handleClick(sf::RenderWindow& window, sf::Font& font) {
         std::vector<Square*> validSquares = players[playerTurn]->getValidPieceSquares(clickedCard->getPiece()); //find valid squares with valid pieces
         //std::cout << validSquares[0] << std::endl;
         validSquares[0]->setHighlight(true);
-        for (int i = 0; i < validSquares.size(); i++) {
+        for (int i = 0; i < validSquares.size(); i++) { // highlight squares with valid pieces
             validSquares[i]->setHighlight(true);
         }
     } else if (gamePhase == 1) { // Selecting piece to move
+        // if card is clicked again
         Card* rePick = players[playerTurn]->getClickedCard(window);
         if(rePick == clickedCard) {
             gamePhase = 0;
@@ -90,9 +91,9 @@ void Game::handleClick(sf::RenderWindow& window, sf::Font& font) {
             // case where empty square is clicked; early return for now
             return;
         }
-        // Highlight origin square
+        // Get valid options for pieces
         std::vector<Square*> validSquares = players[playerTurn]->getValidPieceSquares(clickedCard->getPiece());;
-        // Check if destination square is in valid moves
+        // Check if clicked square is in valid moves
         bool valid;
         if (std::find(validSquares.begin(), validSquares.end(), origin) != validSquares.end()) {
             valid = true;
@@ -103,10 +104,12 @@ void Game::handleClick(sf::RenderWindow& window, sf::Font& font) {
         if (!valid) { // if Square is invalid i.e non-highlighted square clicked
             return;
         } else {
-            origin->setHighlight(true);
             // Change game phase
             gamePhase = 2;
-            // Highlight valid moves
+            // Reset highlights
+            board.unhighlightAll();
+            // Re-highlight valid moves & origin
+            origin->setHighlight(true);
             std::vector<Square*> validSquares = board.getValidMoves(origin);
             for (int i = 0; i < validSquares.size(); i++) {
                 validSquares[i]->setHighlight(true);
@@ -123,7 +126,11 @@ void Game::handleClick(sf::RenderWindow& window, sf::Font& font) {
         if (origin == destination) {
             gamePhase = 1; // Go back to piece selection (cancel move)
             origin = nullptr; // Reset origin pointer
-            board.unhighlightAll();
+            board.unhighlightAll(); // Reset highlights
+            std::vector<Square*> squaresWithValidPiece = players[playerTurn]->getValidPieceSquares(clickedCard->getPiece()); // find valid squares with valid pieces
+            for (int i = 0; i < squaresWithValidPiece.size(); i++) { // highlight squares with valid pieces
+                squaresWithValidPiece[i]->setHighlight(true);
+            }
             return; // Early return
         }
 
