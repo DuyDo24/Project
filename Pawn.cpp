@@ -2,11 +2,9 @@
 #include "Square.h"
 #include <iostream>
 
-// Static texture to be shared by all Pawn instances
 sf::Texture Pawn::whitePawnTexture;
 sf::Texture Pawn::blackPawnTexture;
 
-// Constructor
 Pawn::Pawn(Square* startingSquare, bool black)
     : Piece(startingSquare, 1) {
     // Set sprite based on color
@@ -43,17 +41,22 @@ bool Pawn::isValidMove(const sf::Vector2f& end) const {
     float dy = (end.y - start.y); // +dy = up, -dy = down
 
     // Determine direction based on team color
-    int direction = (color == 1) ? -1 : 1;
+    int direction;
+    int startRow;
+    if (color == 1) {direction = -1; startRow = 6;} 
+    else {direction = 1; startRow = 1;}
 
-    // Pawn can move two squares forward on the first move
-    if (dx == 0 && (dy == direction || (dy == 2 * direction && !hasMoved))) {
+    // Valid moves are any move that is 1 square in y direction (depends on team) either straight or diagonal
+    // Diagonal moves are only valid when square is occupied, however this check is done in getValidMoves()
+    if ((dx == 1 || dx == 0) && dy == direction) {
         return true;
     }
-    // Pawn can capture diagonally if an opponent's piece is present
-    if (dx == 1 && dy == direction && square->getPiece() != nullptr) {
-        return true;
+    // Double move is valid if pawn is on starting square
+    if (dx == 0 && start.y == startRow) {
+        if (std::abs(dy) == 2) {
+            return true;
+        }
     }
-
     return false;
 }
 
@@ -62,42 +65,36 @@ std::vector<Square*> Pawn::getValidMoves(Square squares[8][8]) const {
     std::vector<Square*> validMoves;
     // Get start coordinates
     sf::Vector2f start = square->getGridPos();
-    
-    // Direction is 1 for black, -1 for white
-    int direction = (color == 1) ? -1 : 1;
-
-    // Single square forward
-    sf::Vector2f end = start + sf::Vector2f(0, direction);
-    Square* forwardSquare = &squares[(int) end.x][(int) end.y];
-
-    bool onStartingSquare = (color == 1 && start.y == 6) || (color == 0 && start.y == 1);
-
-    if (forwardSquare->getPiece() == nullptr) {
-        validMoves.push_back(forwardSquare);
-
-        // Two squares forward (only if the pawn is on its starting row)
-    if (onStartingSquare) {
-        end = start + sf::Vector2f(0, 2 * direction);
-        forwardSquare = &squares[(int) end.x][(int) end.y];
-        if (forwardSquare->getPiece() == nullptr) {
-            validMoves.push_back(forwardSquare);
-        }
-    }
-}
-
-    // Diagonal captures
-    for (int dx = -1; dx <= 1; dx += 2) {  // Check both diagonals
-        end = start + sf::Vector2f(dx, direction);
-        if (end.x >= 0 && end.x < 8 && end.y >= 0 && end.y < 8) {  // Stay inside the board
-            Square* diagSquare = &squares[(int) end.x][(int) end.y];
-            if (diagSquare->getPiece() != nullptr && diagSquare->getPiece()->getColor() != color) {
-                validMoves.push_back(diagSquare);
+    // For loop to check both y directions
+    for (int y = 1; y >= -1; y -= 2) {
+        // Check both diagonals & straight ahead square
+        for (int x = 1; x >= -1; x--) {
+            sf::Vector2f end = start + sf::Vector2f(x, y);
+            Square* endSquare = &squares[(int) end.x][(int) end.y];
+            if (isValidMove(end)) {
+                if (std::abs(x) == 1) { // if diagonal
+                    if (endSquare->getPiece() != nullptr) { // push square if occupied
+                        if (endSquare->getPiece()->getColor() != color) {   // & opposite color
+                            validMoves.push_back(endSquare);
+                        }
+                    }
+                } else { // if straight ahead
+                    if (endSquare->getPiece() == nullptr) { // push if unoccupied
+                        validMoves.push_back(endSquare);
+                        // check square past forward square
+                        if (isValidMove(sf::Vector2f(end.x, end.y + y))) {
+                            if (squares[(int) end.x][(int) end.y + y].getPiece() == nullptr) { // push if unoccupied
+                                validMoves.push_back(&squares[(int) end.x][(int) end.y + y]);
+                            }
+                        }
+                    }
+                    // if piece on starting square 
+                }
             }
         }
     }
-
+    
     return validMoves;
 }
 
-// Destructor
 Pawn::~Pawn() {}

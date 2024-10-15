@@ -15,7 +15,8 @@ enum class GameState {
     NEW_GAME,
     RESUME_GAME,
     IN_GAME,
-    INFO_PAGE
+    INFO_PAGE,
+    GAME_OVER
 };
 
 int main()
@@ -119,11 +120,17 @@ int main()
     instructions.setPosition(150, 560);  
     instructions.setString("Select card");
 
+    sf::Text gameOverText;
+    gameOverText.setFont(font);
+    gameOverText.setCharacterSize(50);
+    gameOverText.setFillColor(sf::Color::Black);
+    gameOverText.setPosition(70, 250);
+
     GameState gameState = GameState::MENU;  // Start with menu state
 
     Player playerBlack(0);
     Player playerWhite(1);
-    Game game;
+    Game game(font, true);
     Board* board = game.getBoard();
     game.getPlayer(1)->generateCards(font);
 
@@ -165,6 +172,14 @@ int main()
                     } else if (game.getGamePhase() == 2) {
                         instructions.setString("Select move");
                     }
+                if (game.isGameOver()) {
+                        gameState = GameState::GAME_OVER;
+                        if (game.getPlayerTurn() == 0) {
+                            gameOverText.setString("Black Wins!");
+                        } else {
+                            gameOverText.setString("White Wins!");
+                        }
+                    }
                 }
             }
         }
@@ -193,7 +208,9 @@ int main()
             // Draw info page
             window.draw(infoPageText);
             window.draw(backButtonRect);
-            window.draw(backButtonText);
+            window.draw(backButtonText); 
+        } else if (gameState == GameState::GAME_OVER) {
+            window.draw(gameOverText);
         }
 
         window.display();

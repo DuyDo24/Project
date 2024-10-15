@@ -25,7 +25,7 @@ void Player::generateCards(sf::Font &font) {
                 found = true; 
             }
         }
-        if(!found) {
+        if(!found && pieces[i]->getName() != "King") { //making sure no king cards generate as it is always moveable
             availPieces.push_back(pieces[i]); //this logic only adds types of pieces
         }
     }
@@ -107,6 +107,8 @@ std::vector<Square*> Player::getValidPieceSquares(Piece *piece) {
     std::vector<Square*> validSquares;
     for(int i=0;i<size;i++) {
         if(pieces[i]->getName() == piece->getName()) {
+            validSquares.push_back(pieces[i]->getSquare());
+        } else if(pieces[i]->getName() == "King") {
             validSquares.push_back(pieces[i]->getSquare());
         }
     }
