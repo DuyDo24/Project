@@ -1,9 +1,8 @@
 #ifndef KING_H
 #define KING_H
 
-
 #include "Piece.h"
-
+#include <vector>
 
 class King : public Piece {
 private:
@@ -15,8 +14,9 @@ public:
     
     // Destructor
     ~King() override;
-    bool isValidMove(const sf::Vector2f& start, const sf::Vector2f& end) const override;
-
+    
+    bool isValidMove(const sf::Vector2f& end) const override;
+    std::vector<Square*> getValidMoves(Square squares[8][8]) const override;
 };
 
 #endif // KING_H

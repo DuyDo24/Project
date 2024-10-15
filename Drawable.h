@@ -15,6 +15,9 @@ public:
 
     void setPosition(const sf::Vector2f& position);
     void setTexture(const sf::Texture& texture);
+
+    sf::Sprite getImage();
+
     sf::Vector2f getPosition() const;
 
     virtual void draw(sf::RenderWindow& window) const = 0;
