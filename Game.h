@@ -36,7 +36,7 @@ class Game {
         Player* getPlayer(int color);
         
         int getPlayerTurn();
-        void switchTurn();
+        void switchTurn(sf::Font &font);
         void setGamePhase(int phase);
 
         bool isGameOver() const;

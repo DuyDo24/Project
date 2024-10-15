@@ -9,6 +9,7 @@
 #include "Game.h"
 #include "Player.h"
 #include "Card.h"
+#include <iostream>
 
 enum class GameState {
     MENU,
@@ -21,8 +22,8 @@ enum class GameState {
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(400, 650), "Card Chess");
-    window.setSize(sf::Vector2u(400, 650)); 
+    sf::RenderWindow window(sf::VideoMode(400, 635), "Card Chess");
+    window.setSize(sf::Vector2u(400, 635)); 
 
     // Load header PNG image
     sf::Texture headerTexture;
@@ -118,7 +119,7 @@ int main()
     instructions.setFont(font);
     instructions.setCharacterSize(20);
     instructions.setFillColor(sf::Color::Black);
-    instructions.setPosition(150, 560);  
+    instructions.setPosition(150, 565);  
     instructions.setString("Select card");
 
     sf::Text gameOverText;
@@ -126,6 +127,17 @@ int main()
     gameOverText.setCharacterSize(50);
     gameOverText.setFillColor(sf::Color::Black);
     gameOverText.setPosition(70, 250);
+
+    //Pass button
+    sf::RectangleShape passTurnRect;
+    passTurnRect.setSize(sf::Vector2f(70, 25));   
+    passTurnRect.setPosition(165, 600);
+
+    sf::Text passTurnText;
+    passTurnText.setFont(font);
+    passTurnText.setString("Pass");
+    passTurnText.setCharacterSize(17);
+    passTurnText.setPosition(passTurnRect.getPosition().x + 35 - (passTurnText.getLocalBounds().width)/2, 600);
 
     GameState gameState = GameState::MENU;  // Start with menu state
 
@@ -167,6 +179,10 @@ int main()
             } else if (gameState == GameState::NEW_GAME || gameState == GameState::RESUME_GAME) {
                 // Handle game interaction (existing logic)
                 if (event.type == sf::Event::MouseButtonPressed) {
+                    sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+                    if (passTurnRect.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+                        game->switchTurn(font);
+                    }
                     game->handleClick(window,font);  // Handle the game click
                 if (game->getGamePhase() == 0) {
                         instructions.setString("Select card");
@@ -209,6 +225,15 @@ int main()
             // Draw game
             game->getPlayer(game->getPlayerTurn())->drawCards(window);
             board->drawBoard(window);
+            if(game->getPlayerTurn() == 0) {
+                passTurnRect.setFillColor(sf::Color::White);
+                passTurnText.setFillColor(sf::Color::Black);
+            } else {
+                passTurnRect.setFillColor(sf::Color::Black);
+                passTurnText.setFillColor(sf::Color::White);
+            }
+            window.draw(passTurnRect);
+            window.draw(passTurnText);
             window.draw(instructions);
         } else if (gameState == GameState::INFO_PAGE) {
             // Draw info page

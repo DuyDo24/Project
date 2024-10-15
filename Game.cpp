@@ -304,16 +304,7 @@ void Game::handleClick(sf::RenderWindow& window, sf::Font& font) {
 
             board.movePiece(origin, destination);
             // Change game phase
-            gamePhase = 0;
-            switchTurn();
-            players[playerTurn]->generateCards(font);
-            // Reset origin and destination pointers
-            origin = nullptr;
-            destination = nullptr;
-            clickedCard->setHighlight(false);
-            clickedCard = nullptr;
-            // Un-highlight squares
-            board.unhighlightAll();
+            switchTurn(font);
         }
     }
 }
@@ -333,12 +324,23 @@ int Game::getPlayerTurn() {
     return playerTurn;
 }
 
-void Game::switchTurn() {
+void Game::switchTurn(sf::Font &font) {
     if(playerTurn == 0) {
         playerTurn = 1;
     } else {
         playerTurn = 0;
     }
+    gamePhase = 0;
+    players[playerTurn]->generateCards(font);
+    // Reset origin and destination pointers
+    origin = nullptr;
+    destination = nullptr;
+    if(clickedCard != nullptr) {
+        clickedCard->setHighlight(false);
+    }
+    clickedCard = nullptr;
+    // Un-highlight squares
+    board.unhighlightAll();
 }
 
 
