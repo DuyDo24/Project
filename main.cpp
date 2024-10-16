@@ -22,8 +22,8 @@ enum class GameState {
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(400, 635), "Card Chess");
-    window.setSize(sf::Vector2u(400, 635)); 
+    sf::RenderWindow window(sf::VideoMode(400, 635), "Card Chess", sf::Style::Titlebar | sf::Style::Close);
+    //window.setSize(sf::Vector2u(400, 635)); 
 
     // Load header PNG image
     sf::Texture headerTexture;
