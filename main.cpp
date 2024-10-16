@@ -203,6 +203,10 @@ int main()
                         game->saveGame();
                         window.close();
                     }
+            } else if (gameState == GameState::GAME_OVER) {
+                if (event.type == sf::Event::Closed) {
+                        window.close();
+                    }
             }
         }
 
