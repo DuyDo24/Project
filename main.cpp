@@ -233,7 +233,7 @@ int main()
                 passTurnRect.setFillColor(sf::Color::White);
                 passTurnText.setFillColor(sf::Color::Black);
             } else {
-                passTurnRect.setFillColor(sf::Color::Black);
+                passTurnRect.setFillColor(sf::Color(122,122,122,255));
                 passTurnText.setFillColor(sf::Color::White);
             }
             window.draw(passTurnRect);
