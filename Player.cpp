@@ -17,6 +17,7 @@ void Player::generateCards(sf::Font &font) {
     std::vector<Piece*> availPieces;
     int availSize;
     bool found = false;
+    Piece *king;
     for(int i=0;i<visSize;i++) {
         found = false;
         availSize = availPieces.size();
@@ -27,6 +28,8 @@ void Player::generateCards(sf::Font &font) {
         }
         if(!found && pieces[i]->getName() != "King") { //making sure no king cards generate as it is always moveable
             availPieces.push_back(pieces[i]); //this logic only adds types of pieces
+        } else {
+            king = pieces[i]; //assigning king to a seperate variable to use if it is the only card left
         }
     }
     int size = availPieces.size();
@@ -44,13 +47,12 @@ void Player::generateCards(sf::Font &font) {
     int num;
     int iter;
     found = false;
-    if(size >= 4) {
+    if(size >= 3) {
         iter = 3;
     } else {
         iter = size;
     }
     int stored[iter];
-
     for(int i=0;i<iter;i++) {
         if (hand[i] != nullptr) {
             delete hand[i];  // Free the old Card objects to avoid memory leaks
@@ -77,6 +79,9 @@ void Player::generateCards(sf::Font &font) {
         for(int i=iter;i<3;i++){ //making remaining cards null ptrs when the user has below 3 types of pieces
             hand[i] = nullptr;
         }
+    }
+    if(iter == 0) {
+        hand[0] = new Card(king, font, 0); //making a king card if it is the only piece left
     }
 }
 
@@ -160,6 +165,12 @@ Player::~Player() {
     size = capturedPieces.size();
     for(int i=0;i<size;i++) {
         delete capturedPieces[i];
+    }
+    
+    for(int i=0;i<3;i++) {
+        if(hand[i] != nullptr) {
+            delete hand[i];
+        }
     }
 
 }
