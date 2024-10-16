@@ -204,7 +204,7 @@ void Game::handleClick(sf::RenderWindow& window, sf::Font& font) {
         if (clickedCard == nullptr) { // if no card clicked
             return;
         }
-        clickedCard->setHighlight(true);
+        clickedCard->setHighlight(true); //highlight the clicked card
         gamePhase = 1;
         std::vector<Square*> validSquares = players[playerTurn]->getValidPieceSquares(clickedCard->getPiece()); //find valid squares with valid pieces
         //std::cout << validSquares[0] << std::endl;
@@ -299,12 +299,12 @@ void Game::handleClick(sf::RenderWindow& window, sf::Font& font) {
                     gameOver = true;
                     return;
                     } 
-                players[playerTurn]->capturePiece(destination->getPiece(), players[opp]);
+                players[playerTurn]->capturePiece(destination->getPiece(), players[opp]); //capturing piece logic
             }
 
-            board.movePiece(origin, destination);
-            // Change game phase
-            switchTurn(font);
+            board.movePiece(origin, destination); //moving the pieces
+            
+            switchTurn(font); //switching turns function (used by pass button)
         }
     }
 }

@@ -21,7 +21,7 @@ void Player::generateCards(sf::Font &font) {
         found = false;
         availSize = availPieces.size();
         for(int j=0;j<availSize;j++) {
-            if(pieces[i]->getName() == availPieces[j]->getName()) {
+            if(pieces[i]->getName() == availPieces[j]->getName()) { //if pieces match
                 found = true; 
             }
         }
@@ -44,7 +44,7 @@ void Player::generateCards(sf::Font &font) {
     int num;
     int iter;
     found = false;
-    if(size >= 3) {
+    if(size >= 4) {
         iter = 3;
     } else {
         iter = size;
@@ -60,9 +60,8 @@ void Player::generateCards(sf::Font &font) {
             found = false;
             for(int j=0;j<3;j++) {
                 if(num == stored[j]) {
-                    num = rand() % size;
+                    num = rand() % size; //rerunning in order to not get the same card again
                     found = true;
-                    //std::cout << "james" << std::endl;
                 }
             }
             if(!found) {
@@ -73,6 +72,11 @@ void Player::generateCards(sf::Font &font) {
         stored[i] = num;
         //std::cout << num << std::endl;
         hand[i] = new Card(availPieces[num], font, i);
+    }
+    if(iter < 3) {
+        for(int i=iter;i<3;i++){ //making remaining cards null ptrs when the user has below 3 types of pieces
+            hand[i] = nullptr;
+        }
     }
 }
 
@@ -106,10 +110,10 @@ std::vector<Square*> Player::getValidPieceSquares(Piece *piece) {
     int size = pieces.size();
     std::vector<Square*> validSquares;
     for(int i=0;i<size;i++) {
-        if(pieces[i]->getName() == piece->getName()) {
+        if(pieces[i]->getName() == piece->getName()) { //if the vector's piece name matches the piece name
             validSquares.push_back(pieces[i]->getSquare());
         } else if(pieces[i]->getName() == "King") {
-            validSquares.push_back(pieces[i]->getSquare());
+            validSquares.push_back(pieces[i]->getSquare()); //Making it so king can always be moved
         }
     }
     return validSquares;
