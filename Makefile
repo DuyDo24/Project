@@ -10,7 +10,15 @@ testPlayers:
 	g++ playerTesting.cpp Card.cpp Player.cpp Square.cpp Board.cpp Drawable.cpp Piece.cpp Clickable.cpp Pawn.cpp Knight.cpp Bishop.cpp King.cpp Queen.cpp Rook.cpp Game.cpp -o playerTesting-app -lsfml-graphics -lsfml-window -lsfml-system
 	./playerTesting-app
 
-test: testCards testPlayers
+testRook:
+	g++ rookTesting.cpp Card.cpp Player.cpp Square.cpp Board.cpp Drawable.cpp Piece.cpp Clickable.cpp Pawn.cpp Knight.cpp Bishop.cpp King.cpp Queen.cpp Rook.cpp Game.cpp -o rookTesting-app -lsfml-graphics -lsfml-window -lsfml-system
+	./rookTesting-app
+
+testQueen:
+	g++ queenTesting.cpp Card.cpp Player.cpp Square.cpp Board.cpp Drawable.cpp Piece.cpp Clickable.cpp Pawn.cpp Knight.cpp Bishop.cpp King.cpp Queen.cpp Rook.cpp Game.cpp -o queenTesting-app -lsfml-graphics -lsfml-window -lsfml-system
+	./queenTesting-app
+
+test: testCards testPlayers testRook testQueen
 
 clean:
 	rm -f main *.o

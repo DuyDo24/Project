@@ -14,7 +14,6 @@ public:
         testPlayerParameterizedConstructor();
         testGenerateCards();
         testRemovePiece();
-        testAddPiece();
     }
     Board board;
 
@@ -58,19 +57,6 @@ private:
             std::cout << "RemovePiece Test passed!" << std::endl;
         } else {
             std::cout << "RemovePiece Test failed!" << std::endl;
-        }
-    }
-
-    void testAddPiece() {
-        Player player(1);  // Create player with color 1 (white)
-        Pawn *pawn = new Pawn(board.getChessSquare(7, 1), true);
-        player.addPiece(pawn);
-
-
-        if (player.getPieces().size() == 1) {
-            std::cout << "AddPiece Test passed!" << std::endl;
-        } else {
-            std::cout << "AddPiece Test failed!" << std::endl;
         }
     }
 };

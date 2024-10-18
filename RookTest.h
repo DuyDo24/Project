@@ -1,70 +1,79 @@
-// UnitTestRook.h
-
 #include <iostream>
 #include "Rook.h"
 #include "Square.h"
 
-class UnitTestRook {
+class RookTest {
 public:
     void runTests() {
-        testIsValidMove();
-        testGetValidMoves();
+        testRookConstructor();
+        testRookValidMove();
+        testRookValidMoves();
     }
 
 private:
-    void testIsValidMove() {
+    void testRookConstructor() {
         Square startingSquare;
-        startingSquare.setGridPos(sf::Vector2f(0,0)); // Set position to 0,0
-        Rook rook(&startingSquare, true); // Create a white rook
+        Rook rook(&startingSquare, false);  // White Rook
 
-        // Valid moves for a rook (horizontal or vertical)
-        sf::Vector2f validMove1(0, 5);   // Valid vertical move
-        sf::Vector2f validMove2(5, 0);   // Valid horizontal move
-        sf::Vector2f invalidMove1(1, 1); // Invalid diagonal move
-        sf::Vector2f invalidMove2(0, 9); // Invalid out-of-bounds move
-        bool testsPassed = true;
-        if (!rook.isValidMove(validMove1)) {
-            std::cout << "testIsValidMove failed: (0, 5) should be valid!" << std::endl;
-            testsPassed = false;
+        if (rook.getValue() != 5) {  // Rook has a value of 5
+            std::cout << "Test Rook Constructor: Value initialization failed!" << std::endl;
         }
-        if (!rook.isValidMove(validMove2)) {
-            std::cout << "testIsValidMove failed: (5, 0) should be valid!" << std::endl;
-            testsPassed = false;
+
+        if (rook.getSquare() != &startingSquare) {
+            std::cout << "Test Rook Constructor: Square initialization failed!" << std::endl;
         }
-        if (rook.isValidMove(invalidMove1)) {
-            std::cout << "testIsValidMove failed: (1, 1) should be invalid!" << std::endl;
-            testsPassed = false;
-        }
-        if (rook.isValidMove(invalidMove2)) {
-            std::cout << "testIsValidMove failed: (0, 9) should be invalid!" << std::endl;
-            testsPassed = false;
-        }
-        if (testsPassed) {
-            std::cout << "All tests for isValidMove() passed" << std::endl;
+
+        if (rook.getName() != "Rook") {
+            std::cout << "Test Rook Constructor: Name initialization failed!" << std::endl;
         }
     }
 
-    void testGetValidMoves() {
-        Square squares[8][8];
-        Square startingSquare; // Starting position of the rook
-        Rook rook(&startingSquare, true); // Create a white rook
+    void testRookValidMove() {
+        Square startingSquare;
+        Rook rook(&startingSquare, false);  // White Rook
 
-        // Set up the board with some valid and invalid positions
-        // Assume we are at position (4, 4) on an 8x8 board
-        sf::Vector2f rookPosition(4, 4);
-        startingSquare.setGridPos(rookPosition);
-
-        // Mark valid moves: vertical and horizontal paths
-        std::vector<Square*> validMoves = rook.getValidMoves(squares);
-
-        // Expect valid moves (4,0) to (4,7) and (0,4) to (7,4) without obstruction
-        int expectedMoves = 14; // 7 vertical + 7 horizontal
-
-        if (validMoves.size() != expectedMoves) {
-            std::cout << "testGetValidMoves failed! Expected " << expectedMoves << " valid moves." << std::endl;
+        // Test vertical move
+        if (!rook.isValidMove(sf::Vector2f(0, 7))) {
+            std::cout << "Test Rook Valid Move (Vertical) failed!" << std::endl;
         }
 
-        // You can also add specific checks for certain positions in validMoves if needed
-        // For example, checking if specific squares are included
+        // Test horizontal move
+        if (!rook.isValidMove(sf::Vector2f(7, 0))) {
+            std::cout << "Test Rook Valid Move (Horizontal) failed!" << std::endl;
+        }
+
+        // Test diagonal move (should be invalid for Rook)
+        if (rook.isValidMove(sf::Vector2f(7, 7))) {
+            std::cout << "Test Rook Invalid Move (Diagonal) failed!" << std::endl;
+        }
+
+        // Test invalid move (L-shaped move like a knight)
+        if (rook.isValidMove(sf::Vector2f(2, 1))) {
+            std::cout << "Test Rook Invalid Move (L-shape) failed!" << std::endl;
+        }
+    }
+
+    void testRookValidMoves() {
+        // Set up an 8x8 board with Square objects (not pointers)
+        Square board[8][8];
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                sf::Vector2f gridPos(i, j);
+                board[i][j].setGridPos(gridPos);
+                board[i][j].setPosition(sf::Vector2f(i * 50, j * 50));  // Set position for testing
+            }
+        }
+
+        Square startingSquare;
+        Rook rook(&startingSquare, false);  // White Rook
+
+        std::vector<Square*> validMoves = rook.getValidMoves(board);
+
+        // In an open board, a Rook at position (0, 0) should have 14 valid moves (7 horizontal, 7 vertical)
+        if (validMoves.size() != 14) {
+            std::cout << "Test Rook Get Valid Moves failed! Expected 14, got " << validMoves.size() << std::endl;
+        } else {
+            std::cout << "Rook works Perfectily being able to move in straight lines only" << std::endl;
+        }
     }
 };
