@@ -41,7 +41,7 @@ int main()
     // Load font for menu and other text
     sf::Font font;
     sf::Font font1;
-    if (!font.loadFromFile("Bold & Stylish Calligraphy.ttf")) {
+    if (!font.loadFromFile("calligraphy.ttf")) {
         return -1;
     }
      if (!font1.loadFromFile("times new roman.ttf")) {
@@ -135,9 +135,22 @@ int main()
 
     sf::Text passTurnText;
     passTurnText.setFont(font);
+    passTurnText.setFillColor(sf::Color::Black);
     passTurnText.setString("Pass");
     passTurnText.setCharacterSize(17);
-    passTurnText.setPosition(passTurnRect.getPosition().x + 35 - (passTurnText.getLocalBounds().width)/2, 600);
+    passTurnText.setPosition(180,600);
+
+    sf::RectangleShape menuRect;
+    menuRect.setSize(sf::Vector2f(70, 25));   
+    menuRect.setPosition(30, 600);
+
+    sf::Text menuText;
+    menuText.setFont(font);
+    menuText.setFillColor(sf::Color::Black);
+    menuText.setString("Menu");
+    menuText.setCharacterSize(17);
+    menuText.setPosition(40,600);
+
 
     GameState gameState = GameState::MENU;  // Start with menu state
 
@@ -182,6 +195,10 @@ int main()
                     sf::Vector2i mousePos = sf::Mouse::getPosition(window);
                     if (passTurnRect.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
                         game->switchTurn(font);
+                    }
+                    if (menuRect.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+                        game->saveGame();
+                        gameState = GameState::MENU;  // Go back to main menu
                     }
                     game->handleClick(window,font);  // Handle the game click
                 if (game->getGamePhase() == 0) {
@@ -233,12 +250,15 @@ int main()
                 passTurnRect.setFillColor(sf::Color::White);
                 passTurnText.setFillColor(sf::Color::Black);
             } else {
-                passTurnRect.setFillColor(sf::Color(122,122,122,255));
+                passTurnRect.setFillColor(sf::Color::Black);
                 passTurnText.setFillColor(sf::Color::White);
             }
             window.draw(passTurnRect);
             window.draw(passTurnText);
+            window.draw(menuRect);
+            window.draw(menuText);
             window.draw(instructions);
+            
         } else if (gameState == GameState::INFO_PAGE) {
             // Draw info page
             window.draw(infoPageText);

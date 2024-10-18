@@ -69,6 +69,7 @@ Game::Game(sf::Font &font) {
 Game::Game(sf::Font &font, bool saved) {
     // Set game phase
     gamePhase = 0;
+    gameOver = false;
 
     // Create players
     players.push_back(new Player(0));
@@ -258,6 +259,13 @@ void Game::handleClick(sf::RenderWindow& window, sf::Font& font) {
 
     } else if(gamePhase == 2) { // Selecting square to move to
         // Set destination square
+        Card* rePick = players[playerTurn]->getClickedCard(window);
+        if(rePick == clickedCard) {
+            gamePhase = 0;
+            board.unhighlightAll();
+            clickedCard->setHighlight(false);
+            return;
+        }
         destination = board.getClickedSquare(window);
         if (destination == nullptr) { // if no square clicked
             return;
