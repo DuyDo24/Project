@@ -204,7 +204,7 @@ void Game::handleClick(sf::RenderWindow& window, sf::Font& font) {
         if (clickedCard == nullptr) { // if no card clicked
             return;
         }
-        clickedCard->setHighlight(true);
+        clickedCard->setHighlight(true); //highlight the clicked card
         gamePhase = 1;
         std::vector<Square*> validSquares = players[playerTurn]->getValidPieceSquares(clickedCard->getPiece()); //find valid squares with valid pieces
         //std::cout << validSquares[0] << std::endl;
@@ -299,21 +299,12 @@ void Game::handleClick(sf::RenderWindow& window, sf::Font& font) {
                     gameOver = true;
                     return;
                     } 
-                players[playerTurn]->capturePiece(destination->getPiece(), players[opp]);
+                players[playerTurn]->capturePiece(destination->getPiece(), players[opp]); //capturing piece logic
             }
 
-            board.movePiece(origin, destination);
-            // Change game phase
-            gamePhase = 0;
-            switchTurn();
-            players[playerTurn]->generateCards(font);
-            // Reset origin and destination pointers
-            origin = nullptr;
-            destination = nullptr;
-            clickedCard->setHighlight(false);
-            clickedCard = nullptr;
-            // Un-highlight squares
-            board.unhighlightAll();
+            board.movePiece(origin, destination); //moving the pieces
+            
+            switchTurn(font); //switching turns function (used by pass button)
         }
     }
 }
@@ -333,12 +324,23 @@ int Game::getPlayerTurn() {
     return playerTurn;
 }
 
-void Game::switchTurn() {
+void Game::switchTurn(sf::Font &font) {
     if(playerTurn == 0) {
         playerTurn = 1;
     } else {
         playerTurn = 0;
     }
+    gamePhase = 0;
+    players[playerTurn]->generateCards(font);
+    // Reset origin and destination pointers
+    origin = nullptr;
+    destination = nullptr;
+    if(clickedCard != nullptr) {
+        clickedCard->setHighlight(false);
+    }
+    clickedCard = nullptr;
+    // Un-highlight squares
+    board.unhighlightAll();
 }
 
 

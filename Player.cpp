@@ -17,16 +17,19 @@ void Player::generateCards(sf::Font &font) {
     std::vector<Piece*> availPieces;
     int availSize;
     bool found = false;
+    Piece *king;
     for(int i=0;i<visSize;i++) {
         found = false;
         availSize = availPieces.size();
         for(int j=0;j<availSize;j++) {
-            if(pieces[i]->getName() == availPieces[j]->getName()) {
+            if(pieces[i]->getName() == availPieces[j]->getName()) { //if pieces match
                 found = true; 
             }
         }
         if(!found && pieces[i]->getName() != "King") { //making sure no king cards generate as it is always moveable
             availPieces.push_back(pieces[i]); //this logic only adds types of pieces
+        } else {
+            king = pieces[i]; //assigning king to a seperate variable to use if it is the only card left
         }
     }
     int size = availPieces.size();
@@ -50,7 +53,6 @@ void Player::generateCards(sf::Font &font) {
         iter = size;
     }
     int stored[iter];
-
     for(int i=0;i<iter;i++) {
         if (hand[i] != nullptr) {
             delete hand[i];  // Free the old Card objects to avoid memory leaks
@@ -60,9 +62,8 @@ void Player::generateCards(sf::Font &font) {
             found = false;
             for(int j=0;j<3;j++) {
                 if(num == stored[j]) {
-                    num = rand() % size;
+                    num = rand() % size; //rerunning in order to not get the same card again
                     found = true;
-                    //std::cout << "james" << std::endl;
                 }
             }
             if(!found) {
@@ -73,6 +74,14 @@ void Player::generateCards(sf::Font &font) {
         stored[i] = num;
         //std::cout << num << std::endl;
         hand[i] = new Card(availPieces[num], font, i);
+    }
+    if(iter < 3) {
+        for(int i=iter;i<3;i++){ //making remaining cards null ptrs when the user has below 3 types of pieces
+            hand[i] = nullptr;
+        }
+    }
+    if(iter == 0) {
+        hand[0] = new Card(king, font, 0); //making a king card if it is the only piece left
     }
 }
 
@@ -106,10 +115,10 @@ std::vector<Square*> Player::getValidPieceSquares(Piece *piece) {
     int size = pieces.size();
     std::vector<Square*> validSquares;
     for(int i=0;i<size;i++) {
-        if(pieces[i]->getName() == piece->getName()) {
+        if(pieces[i]->getName() == piece->getName()) { //if the vector's piece name matches the piece name
             validSquares.push_back(pieces[i]->getSquare());
         } else if(pieces[i]->getName() == "King") {
-            validSquares.push_back(pieces[i]->getSquare());
+            validSquares.push_back(pieces[i]->getSquare()); //Making it so king can always be moved
         }
     }
     return validSquares;
@@ -156,6 +165,12 @@ Player::~Player() {
     size = capturedPieces.size();
     for(int i=0;i<size;i++) {
         delete capturedPieces[i];
+    }
+    
+    for(int i=0;i<3;i++) {
+        if(hand[i] != nullptr) {
+            delete hand[i];
+        }
     }
 
 }

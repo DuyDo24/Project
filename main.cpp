@@ -9,6 +9,7 @@
 #include "Game.h"
 #include "Player.h"
 #include "Card.h"
+#include <iostream>
 
 enum class GameState {
     MENU,
@@ -21,7 +22,8 @@ enum class GameState {
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(400, 600), "Card Chess");
+    sf::RenderWindow window(sf::VideoMode(400, 635), "Card Chess", sf::Style::Titlebar | sf::Style::Close);
+    //window.setSize(sf::Vector2u(400, 635)); 
 
     // Load header PNG image
     sf::Texture headerTexture;
@@ -39,7 +41,7 @@ int main()
     // Load font for menu and other text
     sf::Font font;
     sf::Font font1;
-    if (!font.loadFromFile("Bold & Stylish Calligraphy.ttf")) {
+    if (!font.loadFromFile("calligraphy.ttf")) {
         return -1;
     }
      if (!font1.loadFromFile("times new roman.ttf")) {
@@ -117,7 +119,7 @@ int main()
     instructions.setFont(font);
     instructions.setCharacterSize(20);
     instructions.setFillColor(sf::Color::Black);
-    instructions.setPosition(150, 560);  
+    instructions.setPosition(150, 565);  
     instructions.setString("Select card");
 
     sf::Text gameOverText;
@@ -126,32 +128,55 @@ int main()
     gameOverText.setFillColor(sf::Color::Black);
     gameOverText.setPosition(70, 250);
 
+    //Pass button
+    sf::RectangleShape passTurnRect;
+    passTurnRect.setSize(sf::Vector2f(70, 25));   
+    passTurnRect.setPosition(165, 600);
+
+    sf::Text passTurnText;
+    passTurnText.setFont(font);
+    passTurnText.setFillColor(sf::Color::Black);
+    passTurnText.setString("Pass");
+    passTurnText.setCharacterSize(17);
+    passTurnText.setPosition(180,600);
+
+    sf::RectangleShape menuRect;
+    menuRect.setSize(sf::Vector2f(70, 25));   
+    menuRect.setPosition(30, 600);
+
+    sf::Text menuText;
+    menuText.setFont(font);
+    menuText.setFillColor(sf::Color::Black);
+    menuText.setString("Menu");
+    menuText.setCharacterSize(17);
+    menuText.setPosition(40,600);
+
+
     GameState gameState = GameState::MENU;  // Start with menu state
 
-    Player playerBlack(0);
-    Player playerWhite(1);
-    Game game(font, true);
-    Board* board = game.getBoard();
-    game.getPlayer(1)->generateCards(font);
-
+    Game *game;
+    Board* board = game->getBoard();
 
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed) {
-                window.close();
-            }
             if (gameState == GameState::MENU) {
                 // Handle menu interaction
                 if (event.type == sf::Event::MouseButtonPressed) {
                     sf::Vector2i mousePos = sf::Mouse::getPosition(window);
                     if (newGameText.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+                        game = new Game(font);
+                        board = game->getBoard();
                         gameState = GameState::NEW_GAME;
                     } else if (resumeGameText.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+                        game = new Game(font, true);
+                        board = game->getBoard();
                         gameState = GameState::RESUME_GAME;
                     } else if (InfoRect.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
                         gameState = GameState::INFO_PAGE;
                     }
+                } else if (event.type == sf::Event::Closed) {
+                    window.close();
                 }
             } else if (gameState == GameState::INFO_PAGE) {
                 // Handle back to menu interaction
@@ -160,27 +185,44 @@ int main()
                     if (backButtonRect.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
                         gameState = GameState::MENU;
                     }
+                } else if (event.type == sf::Event::Closed) {
+                    window.close();
                 }
+
             } else if (gameState == GameState::NEW_GAME || gameState == GameState::RESUME_GAME) {
                 // Handle game interaction (existing logic)
                 if (event.type == sf::Event::MouseButtonPressed) {
-                    game.handleClick(window,font);  // Handle the game click
-                if (game.getGamePhase() == 0) {
+                    sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+                    if (passTurnRect.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+                        game->switchTurn(font);
+                    }
+                    if (menuRect.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+                        gameState = GameState::MENU;  // Go back to main menu
+                    }
+                    game->handleClick(window,font);  // Handle the game click
+                if (game->getGamePhase() == 0) {
                         instructions.setString("Select card");
-                    } else if (game.getGamePhase() == 1) {
+                    } else if (game->getGamePhase() == 1) {
                         instructions.setString("Select piece");
-                    } else if (game.getGamePhase() == 2) {
+                    } else if (game->getGamePhase() == 2) {
                         instructions.setString("Select move");
                     }
-                if (game.isGameOver()) {
+                if (game->isGameOver()) {
                         gameState = GameState::GAME_OVER;
-                        if (game.getPlayerTurn() == 0) {
+                        if (game->getPlayerTurn() == 0) {
                             gameOverText.setString("Black Wins!");
                         } else {
                             gameOverText.setString("White Wins!");
                         }
                     }
-                }
+                } else if (event.type == sf::Event::Closed) {
+                        game->saveGame();
+                        window.close();
+                    }
+            } else if (gameState == GameState::GAME_OVER) {
+                if (event.type == sf::Event::Closed) {
+                        window.close();
+                    }
             }
         }
 
@@ -201,9 +243,21 @@ int main()
             
         } else if (gameState == GameState::NEW_GAME || gameState == GameState::RESUME_GAME) {
             // Draw game
-            game.getPlayer(game.getPlayerTurn())->drawCards(window);
+            game->getPlayer(game->getPlayerTurn())->drawCards(window);
             board->drawBoard(window);
+            if(game->getPlayerTurn() == 0) {
+                passTurnRect.setFillColor(sf::Color::White);
+                passTurnText.setFillColor(sf::Color::Black);
+            } else {
+                passTurnRect.setFillColor(sf::Color::Black);
+                passTurnText.setFillColor(sf::Color::White);
+            }
+            window.draw(passTurnRect);
+            window.draw(passTurnText);
+            window.draw(menuRect);
+            window.draw(menuText);
             window.draw(instructions);
+            
         } else if (gameState == GameState::INFO_PAGE) {
             // Draw info page
             window.draw(infoPageText);
