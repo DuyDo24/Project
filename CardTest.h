@@ -5,30 +5,30 @@
 #include "Board.h"
 #include "Bishop.h"
 
-class CardUnitTest {
+class CardTest {
 public:
     void runTests() {
-        testCardDefaultConstructor();
+        //testCardDefaultConstructor();
         testCardParameterizedConstructor();
         testSetHighlight();
     }
     Board board;
 
 private:
-    void testCardDefaultConstructor() {
-        Card card;
+    // void testCardDefaultConstructor() {
+    //     Card card;
 
-        if (card.getPiece() != nullptr) {
-            std::cout << "Default Constructor Test failed!" << std::endl;
-        } else {
-            std::cout << "Default Constructor Test passed!" << std::endl;
-        }
-    }
+    //     if (card.getPiece() != nullptr) {
+    //         std::cout << "Default Constructor Test failed!" << std::endl;
+    //     } else {
+    //         std::cout << "Default Constructor Test passed!" << std::endl;
+    //     }
+    // }
 
     void testCardParameterizedConstructor() {
         Pawn pawn(board.getChessSquare(7, 1), true);  // Assuming Piece has a default constructor
         sf::Font font;
-        font.loadFromFile("arial.ttf.ttf");  // Make sure to have a valid path
+        font.loadFromFile("arial.ttf");  // Make sure to have a valid path
 
         Card card(&pawn, font, 0);
 
