@@ -197,6 +197,7 @@ int main()
                         game->switchTurn(font);
                     }
                     if (menuRect.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+                        game->saveGame();
                         gameState = GameState::MENU;  // Go back to main menu
                     }
                     game->handleClick(window,font);  // Handle the game click
