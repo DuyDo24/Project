@@ -69,6 +69,7 @@ Game::Game(sf::Font &font) {
 Game::Game(sf::Font &font, bool saved) {
     // Set game phase
     gamePhase = 0;
+    gameOver = false;
 
     // Create players
     players.push_back(new Player(0));
