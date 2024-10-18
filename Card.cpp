@@ -62,4 +62,8 @@ int Card::getColor() {
     return color;
 }
 
+sf::Color Card::getHighlight() {
+    return cardShape.getFillColor();
+}
+
 Card::~Card() {};

@@ -215,7 +215,7 @@ int main()
                         } else {
                             gameOverText.setString("White Wins!");
                         }
-                    }
+                }   
                 } else if (event.type == sf::Event::Closed) {
                         game->saveGame();
                         window.close();
@@ -223,7 +223,12 @@ int main()
             } else if (gameState == GameState::GAME_OVER) {
                 if (event.type == sf::Event::Closed) {
                         window.close();
+                } else if (event.type == sf::Event::MouseButtonPressed) {
+                    sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+                    if (backButtonRect.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+                        gameState = GameState::MENU;
                     }
+                }
             }
         }
 
@@ -266,6 +271,8 @@ int main()
             window.draw(backButtonText); 
         } else if (gameState == GameState::GAME_OVER) {
             window.draw(gameOverText);
+            window.draw(backButtonRect);
+            window.draw(backButtonText); 
         }
 
         window.display();
