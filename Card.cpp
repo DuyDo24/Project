@@ -16,10 +16,10 @@ Card::Card(Piece *pPiece, const sf::Font& font, int pos) {
         cardColor = sf::Color::White;
         cardShape.setFillColor(sf::Color::White);  // If piece is black, White background
     } else {
-        cardColor = sf::Color::Black;
-        cardShape.setFillColor(sf::Color::Black); //if piece is white, black background
+        cardColor = sf::Color(122,122,122,255);
+        cardShape.setFillColor(sf::Color(122,122,122,255)); //if piece is white, black background
     }
-    cardShape.setPosition(40+(pos*110),410); //setting position below board, x value depending on position (order) of card
+    cardShape.setPosition(30+(pos*120),410); //setting position below board, x value depending on position (order) of card
 
     // Set up card text
     cardText.setFont(font);
@@ -60,6 +60,10 @@ Piece* Card::getPiece() const {
 
 int Card::getColor() {
     return color;
+}
+
+sf::Color Card::getHighlight() {
+    return cardShape.getFillColor();
 }
 
 Card::~Card() {};
